@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Asad | Software Engineer</title>
+    <meta name="description"
+        content="Portfolio of a Logic-Driven Software Developer & CS Student specializing in C#, Python, and Java.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=3">
+    <link rel="stylesheet" href="feature-cards.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .skill-badges {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 20px !important;
+            width: 100% !important;
+            margin-top: 30px !important;
+        }
+
+        .skill-badge {
+            display: flex !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            border-radius: 12px !important;
+            justify-content: center !important;
+            padding: 14px 28px !important;
+            /* Reverted Size */
+            font-size: 1.05rem !important;
+            white-space: nowrap !important;
+            /* No Wrapping */
+        }
+
+        @media (max-width: 600px) {
+            .skill-badges {
+                grid-template-columns: 1fr !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="custom-cursor"></div>
+    <nav class="navbar">
+        <div class="logo">Muhammad Asad<span class="accent"></span></div>
+        <ul class="nav-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact" class="btn-nav">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <header id="hero" class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content fade-in-up">
+
+                <h1 class="glitch-text" data-text="Muhammad Asad">Muhammad Asad</h1>
+                <h2 class="subtitle">Software Engineer & Frontend Developer</h2>
+                <p class="hero-statement">
+                    Software Engineering undergraduate at <strong>Bahria University Karachi</strong> (2028).
+                    I focus on building strong software foundations through hands-on development in
+                    <strong>Python</strong>,
+                    <strong>Java</strong>, and <strong>C#</strong> using the <strong>.NET framework</strong>.
+                    I enjoy turning ideas into clean, functional, and reliable applications while continuously
+                    strengthening
+                    my problem-solving and logical thinking skills.
+                    With a growing interest in modern software development practices, I aim to create efficient,
+                    maintainable solutions and am always eager to learn, improve, and take on new technical challenges.
+                    <span class="hero-footer-text">Feel free to explore my portfolio and get in touch if you'd like to
+                        collaborate or learn more about my work!</span>
+                </p>
+                <div class="social-hero-icons">
+                    <a href="https://www.linkedin.com/in/muhammadasad-arshad/" target="_blank" rel="noopener noreferrer"
+                        class="social-icon-btn linkedin"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/asad594" target="_blank" rel="noopener noreferrer"
+                        class="social-icon-btn github"><i class="fab fa-github"></i></a>
+                    <a href="mailto:asad.spartan300@gmail.com" class="social-icon-btn email"><i
+                            class="fas fa-envelope"></i></a>
+                </div>
+                <div class="cta-group">
+                    <a href="#projects" class="btn btn-outline">View Projects</a>
+                    <a href="#contact" class="btn btn-outline">Contact Me</a>
+                    <a href="resume.pdf" download="Muhammad_Asad_Resume.pdf" class="btn btn-outline"><i
+                            class="fas fa-file-pdf"></i> Download Resume</a>
+                </div>
+            </div>
+
+            <div class="hero-image-wrapper">
+                <div class="hero-image-container">
+                    <img src="profile.jpg" alt="Muhammad Asad - Software Engineer" class="hero-profile-image">
+                </div>
+            </div>
+        </div>
+        <div class="hero-background-glow"></div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">01. About Me</h2>
+            <div class="about-content fade-in-on-scroll">
+                <div class="about-text">
+                    <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student who enjoys building desktop
+                        applications in <strong>C#</strong> and <strong>Java</strong>. I have a solid grasp of
+                        <strong>Object-Oriented Programming (OOP)</strong> and have put it into practice through various
+                        logic-based mini-projects and real-world solutions.
+                    </p>
+
+                    <p>I have hands-on experience developing desktop-based applications using <strong>C#</strong>,
+                        <strong>Java</strong>, and <strong>Python</strong>, with deep knowledge of <strong>Java
+                            Swing</strong> and <strong>C# Windows Forms</strong> for building intuitive, user-friendly
+                        interfaces. I've also worked extensively with various Python libraries to create practical and
+                        innovative solutions. My expertise in Object-Oriented Programming (OOP) has been demonstrated
+                        through numerous projects, from logic-based mini-apps to complete desktop solutions.
+                    </p>
+
+                    <p>I'm always eager to learn, experiment with new tools, and bring ideas to life through clean,
+                        efficient, and creative code. I'm always open to collaborating on projects, taking on freelance
+                        work, or exploring internship opportunities where I can contribute my skills, continue learning,
+                        and grow alongside others in the tech community.</p>
+
+
+                </div>
+
+                <div class="about-visuals">
+                    <div class="about-features">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>Clean Code</h3>
+                            <p>Writing maintainable and scalable solutions with best practices</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon icon-purple">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h3>Desktop Applications</h3>
+                            <p>Building robust desktop apps with C# Windows Forms & Java Swing</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon icon-green">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <h3>OOP Mastery</h3>
+                            <p>Deep understanding of object-oriented design patterns</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon icon-yellow">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3>Performance</h3>
+                            <p>Optimized and efficient applications with clean architecture</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon icon-red">
+                                <i class="fas fa-puzzle-piece"></i>
+                            </div>
+                            <h3>Problem Solving</h3>
+                            <p>Turning complex challenges into elegant solutions</p>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon icon-blue">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <h3>Continuous Learning</h3>
+                            <p>Always exploring new technologies and frameworks</p>
+                        </div>
+
+                        <div class="skill-badge badge-blue"
+                            style="width: 100%; justify-content: center; padding: 16px; border-radius: 12px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);">
+                            <i class="fas fa-star" style="margin-right: 10px;"></i>
+                            <span>Problem Solver</span>
+                        </div>
+
+                        <div class="skill-badge badge-purple"
+                            style="width: 100%; justify-content: center; padding: 16px; border-radius: 12px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);">
+                            <i class="fas fa-users" style="margin-right: 10px;"></i>
+                            <span>Team Player</span>
+                        </div>
+
+                        <div class="skill-badge badge-green"
+                            style="width: 100%; justify-content: center; padding: 16px; border-radius: 12px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                            <i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>
+                            <span>Continuous Learner</span>
+                        </div>
+
+                        <div class="skill-badge badge-orange"
+                            style="width: 100%; justify-content: center; padding: 16px; border-radius: 12px; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);">
+                            <i class="fas fa-lightbulb" style="margin-right: 10px;"></i>
+                            <span>Creative Thinker</span>
+                        </div>
+                        <!-- Moved Skill Badges Here -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title">02. My Skills</h2>
+            <div class="skills-grid fade-in-on-scroll">
+                <div class="skill-category">
+                    <h3><i class="fas fa-code"></i> Languages</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">C#</div>
+                        <div class="skill-item">Python</div>
+                        <div class="skill-item">Java</div>
+                        <div class="skill-item">JavaScript (ES6+)</div>
+                        <div class="skill-item">SQL</div>
+                        <div class="skill-item">MIPS Assembly</div>
+                        <div class="skill-item">HTML/CSS</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-layer-group"></i> Frameworks & Tools</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">.NET Core</div>
+                        <div class="skill-item">Git & GitHub</div>
+                        <div class="skill-item">Visual Studio</div>
+                        <div class="skill-item">React</div>
+                        <div class="skill-item">Docker</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3><i class="fas fa-brain"></i> Core Concepts</h3>
+                    <div class="skill-list">
+                        <div class="skill-item">Data Structures</div>
+                        <div class="skill-item">Algorithms</div>
+                        <div class="skill-item">OOP</div>
+                        <div class="skill-item">System Design</div>
+                        <div class="skill-item">Requriment Elicitation</div>
+                        <div class="skill-item">Digital Logic and Design</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">03. Featured Projects</h2>
+            <div class="portfolio-container">
+                <!-- Project 0: Food Heaven -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/food-heaven.png" alt="Food Heaven Website">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Food-Heaven-Restaurant" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Food Heaven Website</h4>
+                        <p>A premium restaurant management system featuring a modern UI, dynamic menu, and robust
+                            reservation system.</p>
+                    </div>
+                </div>
+
+                <!-- Project 1: Algo Puzzle Board -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/algo-puzzle.png" alt="Algo Puzzle Board">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Algo-Puzzle-Board" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Algo Puzzle Board</h4>
+                        <p>A visual masterpiece for understanding complex algorithms. Features interactive
+                            visualizations for sorting, pathfinding, and logic puzzles.</p>
+                    </div>
+                </div>
+
+                <!-- Project 2: Requirement Genie -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/req-genie.png" alt="Requirement Genie">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Requirement-Genie" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Requirement Genie</h4>
+                        <p>An AI-driven tool to streamline software requirement gathering. Automates the generation of
+                            SRS documents using NLP techniques.</p>
+                    </div>
+                </div>
+
+                <!-- Project 3: CookBook -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/cookbook.png" alt="CookBook">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/CookBook-Website-Project" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>CookBook</h4>
+                        <p>A modern recipe management platform. Allows users to discover, share, and save recipes with a
+                            clean, responsive UI.</p>
+                    </div>
+                </div>
+
+                <!-- Project 4: Decode & Discover -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/decode-discover.png" alt="Decode & Discover">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Decode-And-Discover" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Decode & Discover</h4>
+                        <p>An educational cryptography tool key for teaching security concepts through decryption and
+                            encryption visualizations.</p>
+                    </div>
+                </div>
+
+                <!-- Project 5: Job Ranking System -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/job-ranking.png" alt="Job Ranking System">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Job-Ranking-System" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Job Ranking System</h4>
+                        <p>A ranking engine for job applications based on skill matching and experience scoring
+                            algorithms.</p>
+                    </div>
+                </div>
+
+                <!-- Project 6: MIPS Productivity Dashboard -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/mips-dashboard.png" alt="MIPS Productivity Dashboard">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Productivity-Dashboard-MIPS-assembly-Language"
+                                target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>MIPS Productivity Dashboard</h4>
+                        <p>A low-level task management system built entirely in MIPS Assembly. Features task tracking
+                            and direct memory status updates.</p>
+                    </div>
+                </div>
+
+                <!-- Project 7: Snake Game -->
+                <div class="portfolio-box">
+                    <div class="portfolio-img-box">
+                        <img src="images/snake-game.png" alt="Snake Game">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/Snake-Game-" target="_blank"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Snake Game</h4>
+                        <p>A classic retro-style Snake Game implementation. Features smooth controls, score tracking,
+                            and collision detection logic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <h2 class="section-title">04. Get In Touch</h2>
+            <p class="contact-subtitle">Currently looking for internship opportunities and junior developer roles.</p>
+
+            <div class="contact-wrapper fade-in-on-scroll">
+                <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <!-- Web3Forms Access Key -->
+                    <input type="hidden" name="access_key" value="e0c8f085-3d80-4c2c-9833-82440efc3d32">
+                    <input type="hidden" name="from_name" value="Portfolio Contact">
+                    <!-- Subject field is now user-provided -->
+
+                    <div class="contact-grid">
+                        <div class="form-group">
+                            <input type="text" name="name" required placeholder=" ">
+                            <label>Full Name</label>
+                            <span class="focus-border"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" required placeholder=" ">
+                            <label>Email Address</label>
+                            <span class="focus-border"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" name="phone" placeholder=" ">
+                            <label>Mobile Number</label>
+                            <span class="focus-border"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" required placeholder=" ">
+                            <label>Email Subject</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea name="message" rows="4" required placeholder=" "></textarea>
+                        <label>Your Message</label>
+                        <span class="focus-border"></span>
+                    </div>
+
+                    <div class="form-btn-wrapper">
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/muhammadasad-arshad/" target="_blank" aria-label="LinkedIn"><i
+                            class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/asad594" target="_blank" aria-label="GitHub"><i
+                            class="fab fa-github"></i></a>
+                    <a href="mailto:asad.spartan300@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-socials">
+                <a href="https://www.linkedin.com/in/muhammadasad-arshad/" target="_blank"><i
+                        class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/asad594" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:asad.spartan300@gmail.com"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="copyright">Designed & Built by <span class="highlight">Muhammad Asad</span> | 2026</p>
+        </div>
+    </footer>
+
+    <!-- Skill Detail Modal -->
+    <div class="skill-modal-overlay" id="skillModal">
+        <div class="skill-modal-content">
+            <button class="skill-modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            <div class="skill-modal-icon" id="modalIcon"><i class="fas fa-code"></i></div>
+            <h3 class="skill-modal-title" id="modalTitle">Skill Name</h3>
+            <p class="skill-modal-desc" id="modalDesc">Skill description goes here.</p>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="scroll-to-top" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+    <script>
+        // Inline Modal Logic Fallback (kept as is)
+        document.addEventListener('DOMContentLoaded', () => {
+            const skillData = {
+                "C#": "I explore game development using C#, applying OOP principles to design interactive and performance-optimized experiences, particularly using engines like Unity.",
+                "Python": "I utilize Python for automation, data analysis, and backend development, focusing on writing clean, efficient, and scalable scripts.",
+                "Java": "I leverage Java to build robust cross-platform applications, applying strong Object-Oriented Programming (OOP) principles for maintainability.",
+                "JavaScript (ES6+)": "I use modern JavaScript (ES6+) to create dynamic, interactive frontend experiences, ensuring seamless user interactions.",
+                "HTML/CSS": "With my strong CSS skills, I can style websites to be visually appealing, ensuring they are responsive and perform well across various devices. I structure web content effectively using semantic HTML.",
+                "HTML": "I have a solid understanding of HTML, enabling me to structure web content effectively and create well-organized, semantic web pages.",
+                "SQL": "I design and query relational databases with SQL, ensuring data integrity and optimizing retrieval for efficient performance.",
+                "MIPS Assembly": "I write low-level assembly code using the MIPS instruction set, focusing on understanding computer architecture and optimizing for hardware.",
+                ".NET Core": "I build modern, high-performance web APIs and applications using .NET Core and ASP.NET to deliver scalable solutions.",
+                "Visual Studio": "I expertly use Visual Studio for efficient code editing, debugging, and managing complex project lifecycles.",
+                "Git & GitHub": "I manage version control effectively using Git and GitHub, facilitating smooth collaboration and code history tracking.",
+                "React": "I build component-based user interfaces with React, creating fast single-page applications with reusable stateful components.",
+                "Docker": "I use Docker to containerize applications, ensuring consistent deployment environments across development and production.",
+                "Data Structures": "I apply Data Structures effectively to optimize code performance and solve complex computational problems.",
+                "Algorithms": "I analyze and implement efficient algorithms for sorting, searching, and pathfinding to enhance application logic.",
+                "OOP": "I apply Object-Oriented Programming concepts like Inheritance, Polymorphism, and Encapsulation to write modular and reusable code.",
+                "System Design": "I apply system design principles to create scalable, maintainable, and reliable software architectures.",
+                "Requirement Elicitation": "I gather and analyze software requirements meticulously to ensure project goals align with user needs.",
+                "Requriment Elicitation": "I gather and analyze software requirements meticulously to ensure project goals align with user needs.",
+                "Digital Logic and Design": "I apply knowledge of digital logic circuits to bridge the gap between hardware and software integration."
+            };
+
+            const skillItems = document.querySelectorAll('.skill-item');
+            const modal = document.getElementById('skillModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDesc = document.getElementById('modalDesc');
+            const closeBtn = document.getElementById('closeModalBtn');
+
+            if (modal && skillItems.length > 0) {
+                skillItems.forEach(item => {
+                    item.style.cursor = 'pointer';
+                    item.onclick = (e) => { // Direct onclick to override listeners
+                        e.stopPropagation();
+                        const skillName = item.innerText.trim();
+                        if (modalTitle) modalTitle.innerText = skillName;
+                        if (modalDesc) modalDesc.innerText = skillData[skillName] || skillData[Object.keys(skillData).find(k => k.includes(skillName))] || `Expertise in ${skillName}.`;
+                        modal.classList.add('active');
+                    };
+                });
+
+                if (closeBtn) closeBtn.onclick = () => modal.classList.remove('active');
+                modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('active'); };
+            }
+        });
+    </script>
+</body>
+
+</html>

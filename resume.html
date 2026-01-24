@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muhammad Asad - Resume</title>
+    <!-- Using web-safe fonts or Google Fonts that load reliably -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Exact colors based on the image description/standard professional green */
+            --sidebar-bg: #004d40;
+            /* Dark Teal Green */
+            --sidebar-text: #ffffff;
+            --main-bg: #ffffff;
+            --main-text: #333333;
+            --accent-color: #004d40;
+            /* Matching headers to sidebar */
+            --font-serif: 'Merriweather', 'Georgia', serif;
+            --font-sans: 'Open Sans', 'Arial', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            background-color: #fff;
+            /* White strictly */
+            font-family: var(--font-sans);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .resume-container {
+            width: 210mm;
+            min-height: 297mm;
+            height: auto;
+            /* Use gradient to simulate sidebar background across full height/pages */
+            background: linear-gradient(to right, var(--sidebar-bg) 35%, var(--main-bg) 35%);
+            display: flex;
+            flex-direction: row;
+        }
+
+        /* Sidebar Styles */
+        .left-col {
+            width: 35%;
+            /* background-color: transparent; Remove solid bg so gradient shows, or keep for safety */
+            background-color: transparent;
+            color: var(--sidebar-text);
+            padding: 60px 25px 40px 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+        }
+
+        /* ... (Keep other styles) ... */
+
+        /* Adjusted Spacing to fill page */
+        .project-item {
+            margin-bottom: 35px;
+            /* Increased from 20px to fill space */
+        }
+
+        .main-section {
+            margin-bottom: 25px;
+        }
+
+        /* Force Education to next page */
+        .education-section {
+            page-break-before: always;
+        }
+
+        /* Print adjustments */
+        @media print {
+            body {
+                background-color: white;
+            }
+
+            .resume-container {
+                width: 100%;
+                min-height: 100vh;
+                height: auto;
+                margin: 0;
+                box-shadow: none;
+                /* Ensure gradient prints */
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        .profile-img-container {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ffffff;
+            /* Box shadow for depth */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+
+        /* Sidebar Headings */
+        .sidebar-section h2 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            font-size: 1.35rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            font-size: 0.9rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-label {
+            font-weight: 700;
+            opacity: 0.8;
+            font-size: 0.8rem;
+            margin-bottom: 2px;
+        }
+
+        .contact-value {
+            color: #fff;
+            text-decoration: none;
+            word-break: break-word;
+            /* Allow wrapping */
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        .contact-value a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Skills */
+        .skills-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .skill-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .skill-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        .progress {
+            height: 100%;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        /* Main Content Styles */
+        .right-col {
+            width: 65%;
+            padding: 60px 40px 40px 40px;
+            color: var(--main-text);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Header Name Section */
+        .header-section {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        .header-name {
+            font-family: var(--font-serif);
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+            line-height: 1.1;
+        }
+
+        .header-title {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Main Headings */
+        .main-section {
+            margin-bottom: 10px;
+        }
+
+        .main-section h3 {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .profile-summary {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        /* Projects & Items */
+        .project-item,
+        .education-item {
+            margin-bottom: 20px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 3px;
+        }
+
+        .item-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #000;
+        }
+
+        .item-date {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 600;
+        }
+
+        .item-subtitle {
+            font-weight: 600;
+            color: #444;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .item-description {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #333;
+        }
+
+        .item-description ul {
+            list-style-type: disc;
+            margin-left: 15px;
+        }
+
+        .item-description li {
+            margin-bottom: 3px;
+        }
+
+        /* Print Media Query */
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                background: linear-gradient(to right, var(--sidebar-bg) 35%, var(--main-bg) 35%) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                margin: 0;
+            }
+
+            .resume-container {
+                width: 100%;
+                min-height: 100vh;
+                height: auto;
+                margin: 0;
+                box-shadow: none;
+                background: transparent !important;
+            }
+
+            /* Hide web-only elements if any */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="resume-container">
+        <!-- Sidebar (Left Column) -->
+        <div class="left-col">
+            <div class="profile-img-container">
+                <img src="profile.jpg" alt="Muhammad Asad" class="profile-img">
+            </div>
+
+            <div class="sidebar-section" style="margin-top: 25px;">
+                <h2>Details</h2>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <span class="contact-label">Location</span>
+                        <span class="contact-value">Karachi, Pakistan</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Phone</span>
+                        <span class="contact-value"><a href="tel:03132164250">0313-2164250</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">Email</span>
+                        <span class="contact-value"><a
+                                href="mailto:asad.spartan300@gmail.com">asad.spartan300@gmail.com</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">LinkedIn</span>
+                        <span class="contact-value"><a href="https://linkedin.com/in/muhammadasad-arshad"
+                                target="_blank">linkedin.com/in/muhammadasad-arshad</a></span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="contact-label">GitHub</span>
+                        <span class="contact-value"><a href="https://github.com/asad594"
+                                target="_blank">github.com/asad594</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h2>Skills</h2>
+                <div class="skills-list">
+                    <div class="skill-item">
+                        <span class="skill-name">C# & .NET</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 90%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Java</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Python</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 80%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Web Dev (HTML/CSS/JS)</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">SQL & Databases</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 70%;"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">OOP & DSA</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 85%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content (Right Column) -->
+        <div class="right-col">
+            <div class="header-section">
+                <h1 class="header-name">Muhammad Asad</h1>
+                <div class="header-title">Software Engineering Student</div>
+            </div>
+
+            <div class="main-section">
+                <h3>Profile</h3>
+                <div class="profile-summary">
+                    Software Engineering undergraduate (2028) with a strong foundation in desktop application
+                    development using C# (.NET Framework), Java, and Python. Passionate about Object-Oriented
+                    Programming (OOP), Data Structures, and Algorithm Analysis. Experienced in building intuitive user
+                    interfaces with Windows Forms and Java Swing. Eager to contribute to professional software teams,
+                    leverage analytical skills for complex problem solving, and continuously adopt modern development
+                    practices.
+                </div>
+            </div>
+
+            <div class="main-section">
+                <h3>Projects</h3>
+
+                <div class="project-item">
+                    <div class="item-header">
+                        <span class="item-title">HR Management System</span>
+                        <span class="item-date">2025</span>
+                    </div>
+                    <div class="item-subtitle">C# .NET Desktop Application</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Developed a desktop application using C# and .NET to streamline HR processes.</li>
+                            <li>Implemented a job ranking algorithm to filter and sort candidates based on weighted
+                                criteria (Experience, Skills).</li>
+                            <li>Designed candidate data management, automated scoring, and reporting interfaces.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="item-header">
+                        <span class="item-title">Restaurant Management System</span>
+                        <span class="item-date">2024</span>
+                    </div>
+                    <div class="item-subtitle">Java Swing Application</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Built a comprehensive management solution for restaurants using Java Swing.</li>
+                            <li>Key modules included table reservation, order processing, inventory tracking, and
+                                billing.</li>
+                            <li>Utilized OOP principles to ensure code modularity and maintainability.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="item-header">
+                        <span class="item-title">AlgoPuzzleBoard</span>
+                        <span class="item-date">2024</span>
+                    </div>
+                    <div class="item-subtitle">Educational Visualization Tool</div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Interactive platform visualizing complex algorithms like N-Queens and Knight's Tour.
+                            </li>
+                            <li>Implemented dynamic UI updates using C# to demonstrate backtracking strategies
+                                step-by-step.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-section education-section">
+                <h3>Education</h3>
+                <div class="education-item">
+                    <div class="item-header">
+                        <span class="item-title">Bachelor of Software Engineering</span>
+                        <span class="item-date">SEPT 2024 - PRESENT</span>
+                    </div>
+                    <div class="item-subtitle">Bahria University, Karachi</div>
+                    <div class="item-description">
+                        Focus Coursework: OOP, Data Structures, Algorithms, Calculus, Linear Algebra.
+                    </div>
+                </div>
+                <!-- Removed Intermediate as it wasn't clearly legible or priority in typical tech resumes, but kept in user's request if visible. Image showed it. Adding back. -->
+                <div class="education-item" style="margin-bottom: 0;">
+                    <div class="item-header">
+                        <span class="item-title">Intermediate (Pre-Engineering)</span>
+                        <span class="item-date">COMPLETED 2024</span>
+                    </div>
+                    <div class="item-subtitle">Karachi Public School</div>
+                </div>
+            </div>
+
+            <div class="main-section">
+                <h3>Certifications</h3>
+                <div class="item-description">
+                    <ul>
+                        <li><strong>Certified Software Engineering Student</strong> - Bahria University</li>
+                        <li>Participant in internal coding hackathons and logic building competitions.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

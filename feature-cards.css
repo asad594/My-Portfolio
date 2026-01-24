@@ -1,0 +1,74 @@
+/* Glassmorphism Feature Cards - Overrides */
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 20px !important;
+    margin-top: 0 !important;
+}
+
+@media (max-width: 768px) {
+    .about-features {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.02) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 16px !important;
+    padding: 25px !important;
+    text-align: left !important;
+    transition: all 0.4s ease !important;
+    box-shadow: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Remove old pseudo-elements if any */
+.feature-card::before {
+    display: none !important;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--accent) !important;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5) !important;
+}
+
+.feature-icon {
+    width: 45px !important;
+    height: 45px !important;
+    margin: 0 0 15px 0 !important;
+    border-radius: 12px !important;
+    background: rgba(100, 255, 218, 0.1) !important;
+    font-size: 1.2rem !important;
+    color: var(--accent) !important;
+    box-shadow: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.feature-card:hover .feature-icon {
+    transform: scale(1.1) !important;
+    background: var(--accent) !important;
+    color: var(--bg-dark) !important;
+    box-shadow: 0 0 20px rgba(100, 255, 218, 0.4) !important;
+}
+
+.feature-card h3 {
+    text-align: left !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
+    color: var(--text-main) !important;
+}
+
+.feature-card p {
+    text-align: left !important;
+    font-size: 0.9rem !important;
+    color: var(--text-muted) !important;
+    margin: 0 !important;
+}
