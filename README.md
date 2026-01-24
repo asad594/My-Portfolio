@@ -2,8 +2,6 @@
 
 A professional, modern, and responsive personal portfolio website designed to showcase my skills, projects, and professional journey as a software developer. This project highlights a focus on clean UI/UX, interactivity, and performance.
 
-![Portfolio Preview](images/portfolio-preview.png)
-*(Note: Add a screenshot of the portfolio here if available, or remove this line)*
 
 ## 🚀 Features
 
@@ -35,27 +33,12 @@ A professional, modern, and responsive personal portfolio website designed to sh
 └── resume.pdf          # Downloadable PDF resume
 ```
 
-## 🔧 Setup & Usage
-
-Since this is a static site, no complex build process is required.
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/portfolio-2.git
-    ```
-2.  **Open the project:**
-    - Simply open `index.html` in your web browser.
-    - OR run a local server (recommended for best experience with paths):
-      ```bash
-      python -m http.server 8000
-      # Open http://localhost:8000 in your browser
-      ```
 
 ## 📬 Contact
 
 Feel free to reach out to me for collaboration or opportunities!
 
-- **Website:** [Your Website Link]
-- **Email:** [Your Email]
-- **LinkedIn:** [Your LinkedIn Profile]
-- **GitHub:** [Your GitHub Profile]
+- **Website:** [muhammadasadpportfolio.netlify.app]
+- **Email:** [asad.spartan300@gmail.com]
+- **LinkedIn:** [https://www.linkedin.com/in/muhammadasad-arshad/]
+- **GitHub:** [https://github.com/asad594]
