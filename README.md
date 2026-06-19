@@ -74,7 +74,7 @@ flowchart TD
     subgraph Cloud ["CDN Delivery Pipeline"]
         Netlify["Netlify edge servers (HTTPS)"]
     end
-    Client --> Netlify
+    HTML --> Netlify
 ```
 
 ---
