@@ -2517,6 +2517,25 @@ body::before {
     margin: 2rem 0 3rem 0;
 }
 
+@media screen and (max-width: 991px) {
+    .filter-buttons {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 10px 20px;
+        margin: 1.5rem 0 2.5rem 0;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Hide scrollbar for Firefox */
+        width: 100%;
+    }
+    .filter-buttons::-webkit-scrollbar {
+        display: none; /* Hide scrollbar for Chrome, Safari, Opera */
+    }
+    .filter-btn {
+        flex-shrink: 0;
+    }
+}
+
 .filter-btn {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.08);
