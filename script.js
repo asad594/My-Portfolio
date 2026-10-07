@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3D Hover Tilt & Spotlight effect
-    const tiltCards = document.querySelectorAll('.portfolio-box, .skill-category, .feature-card');
+    const tiltCards = document.querySelectorAll('.portfolio-box, .skill-category, .feature-card, .experience-card');
     tiltCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -233,6 +233,37 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--mouse-bg-x', `${e.clientX}px`);
         document.documentElement.style.setProperty('--mouse-bg-y', `${e.clientY}px`);
     });
+
+    // ==========================================
+    // Active Nav Link Scroll Spy
+    // ==========================================
+    const navSections = document.querySelectorAll('header[id], section[id]');
+    const navLinksList = document.querySelectorAll('.nav-links a');
+
+    function updateActiveNav() {
+        let currentSectionId = '';
+        const scrollPosition = window.pageYOffset + 200;
+
+        navSections.forEach(sec => {
+            const top = sec.offsetTop;
+            const height = sec.offsetHeight;
+            if (scrollPosition >= top && scrollPosition < top + height) {
+                currentSectionId = sec.getAttribute('id');
+            }
+        });
+
+        if (currentSectionId) {
+            navLinksList.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${currentSectionId}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
 
     // ==========================================
     // Project Category Filtering
@@ -345,7 +376,25 @@ document.addEventListener('DOMContentLoaded', () => {
         "Software Design Principles": "I follow clean code principles, SOLID design guidelines, and separation of concerns to write highly maintainable codebases.",
         "Requirement Elicitation": "I gather and analyze software requirements meticulously to ensure project goals align with user needs.",
         "Requriment Elicitation": "I gather and analyze software requirements meticulously to ensure project goals align with user needs.", /* Typo Fallback */
-        "Digital Logic and Design": "I apply knowledge of digital logic circuits to bridge the gap between hardware and software integration."
+        "Digital Logic and Design": "I apply knowledge of digital logic circuits to bridge the gap between hardware and software integration.",
+        // ByteCorp Traineeship Skills
+        "Django REST Framework": "I build robust, decoupled RESTful APIs using Django REST Framework, implementing serializers, viewsets, filters, pagination, and permission classes.",
+        "REST API Design": "I architect clean, resource-oriented RESTful endpoints adhering to HTTP standards, idempotent methods, clear status codes, and consistent JSON payload schemas.",
+        "JWT Authentication": "I implement stateless JSON Web Token (JWT) authentication flows with access/refresh token rotation, secure cookie handling, and route protection.",
+        "Google OAuth": "I integrate OAuth 2.0 social authentication with Google, enabling secure third-party login, token validation, and automated user profile sync.",
+        "Database Schema Design (ERD, normalization, indexing)": "I design 3NF normalized relational database schemas with clear Entity Relationship Diagrams (ERDs), foreign key constraints, and performance indexes.",
+        "Database Schema Design": "I design 3NF normalized relational database schemas with clear Entity Relationship Diagrams (ERDs), foreign key constraints, and performance indexes.",
+        "Multi-database routing": "I configure dual/multi-database routing architectures in Django to decouple high-volume transactional workloads or request logs from the primary application DB.",
+        "React 19": "I develop responsive, component-driven web applications leveraging modern React 19 features, hooks, concurrent state management, and optimized rendering.",
+        "Vite": "I use Vite as a next-generation frontend build tool for lightning-fast HMR development server performance and optimized production asset bundling.",
+        "Tailwind CSS v4": "I craft modern, highly customizable responsive interfaces using Tailwind CSS v4 utility-first classes, CSS variables, and modern styling tokens.",
+        "TanStack Query": "I manage server state and asynchronous data fetching using TanStack Query (React Query) with automated caching, background refetching, and optimistic updates.",
+        "Payload CMS": "I integrate Payload CMS 3 as a type-safe headless CMS, structuring custom collections, access control, and dynamic content delivery.",
+        "Next.js": "I build fullstack and server-rendered web applications with Next.js App Router, server components, API routes, and optimized image/asset loading.",
+        "Postman API Testing": "I design comprehensive Postman collections, environment variables, automated test scripts, and pre-request scripts for full API contract validation.",
+        "Structured Logging and Observability": "I implement structured JSON request/response logging middleware to track API latency, status codes, user IPs, and payload metadata in a dedicated log database.",
+        "Role-Based Access Control": "I engineer granular RBAC permissions models (Admin, Company Representative, Job Seeker) ensuring secure route and resource isolation.",
+        "Technical Documentation (SRS)": "I author formal Software Requirements Specifications (SRS), architectural diagrams, API references, and deployment guides."
     };
 
     const skillItems = document.querySelectorAll('.skill-item');
