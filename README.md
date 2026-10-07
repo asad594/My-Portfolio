@@ -91,7 +91,7 @@ flowchart TD
 ├── assets/               # Branding assets
 │   └── banner.png        # Glowing tech banner
 ├── images/               # Project screenshots & decorative SVGs
-├── profile.jpg           # Header avatar image
+├── asad.jpeg             # Header avatar image
 └── resume.pdf            # Printable PDF resume asset
 ```
 
