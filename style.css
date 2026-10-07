@@ -1104,16 +1104,27 @@ a {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--accent);
+    background: #233554;
     border: 3px solid var(--bg-dark);
-    box-shadow: 0 0 12px var(--accent);
     z-index: 2;
     transition: all 0.3s ease;
 }
 
-.timeline-item:hover .timeline-marker {
+.timeline-marker.active-marker {
+    background: var(--accent);
+    border: 3px solid var(--bg-dark);
+    box-shadow: 0 0 12px var(--accent);
+}
+
+.timeline-item:hover .timeline-marker.active-marker {
     transform: scale(1.3);
     box-shadow: 0 0 20px var(--accent);
+}
+
+.timeline-item:hover .timeline-marker:not(.active-marker) {
+    transform: scale(1.25);
+    background: #64ffda;
+    border-color: var(--bg-dark);
 }
 
 .experience-card {
@@ -1216,6 +1227,12 @@ a {
     letter-spacing: 0.5px;
 }
 
+.status-badge.completed-badge {
+    background: rgba(136, 146, 176, 0.08);
+    color: var(--text-muted);
+    border: 1px solid rgba(136, 146, 176, 0.25);
+}
+
 .pulse-dot {
     width: 7px;
     height: 7px;
@@ -1278,6 +1295,10 @@ a {
     color: var(--accent);
     font-size: 1.15rem;
     line-height: 1.6;
+}
+
+.timeline-item.fade-in-on-scroll:nth-child(2) {
+    transition-delay: 0.15s;
 }
 
 @media (max-width: 768px) {
