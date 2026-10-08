@@ -144,8 +144,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 3D Hover Tilt & Spotlight effect
-    const tiltCards = document.querySelectorAll('.portfolio-box, .skill-category, .feature-card, .experience-card');
+    // 3D Hover Tilt & Spotlight effect (excluding .skill-category to prevent tilting)
+    const tiltCards = document.querySelectorAll('.portfolio-box, .feature-card, .experience-card');
     tiltCards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -165,6 +165,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         card.addEventListener('mouseleave', () => {
             card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+        });
+    });
+
+    // Spotlight effect for skill cards (mouse glow without 3D tilt)
+    const skillSpotlightCards = document.querySelectorAll('.skill-category');
+    skillSpotlightCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
         });
     });
 
