@@ -1,52 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Welcome Splash Screen Loader
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const welcomeLoaderBar = document.querySelector('.welcome-loader-bar');
-    const welcomeCounter = document.querySelector('.welcome-counter');
-    const welcomeZone = document.querySelector('.welcome-interactive-zone');
-    const enterBtn = document.getElementById('enter-portfolio-btn');
-    
-    if (welcomeScreen && welcomeLoaderBar) {
-        document.body.classList.add('lock-scroll');
-        
-        let progress = 0;
-        const speed = 10; // Fast load
-        
-        const loadingInterval = setInterval(() => {
-            progress += 15;
-            if (progress > 100) progress = 100;
-            
-            welcomeLoaderBar.style.width = `${progress}%`;
-            if (welcomeCounter) {
-                welcomeCounter.innerText = `${progress.toString().padStart(2, '0')}%`;
-            }
-            
-            if (progress >= 100) {
-                clearInterval(loadingInterval);
-                setTimeout(() => {
-                    if (welcomeZone) {
-                        welcomeZone.classList.add('loaded');
-                    }
-                    // Highlight outer scanning ring solid on completion
-                    const outerRing = document.querySelector('.scanner-outer');
-                    if (outerRing) {
-                        outerRing.style.borderStyle = 'solid';
-                        outerRing.style.borderColor = 'var(--accent)';
-                    }
-                }, 300);
-            }
-        }, speed);
-        
-        if (enterBtn) {
-            enterBtn.addEventListener('click', () => {
-                welcomeScreen.classList.add('exit');
-                setTimeout(() => {
-                    welcomeScreen.style.display = 'none';
-                    document.body.classList.remove('lock-scroll');
-                }, 400); // reduced from 900 for faster scroll unlock
-            });
-        }
-    }
+
 
     // Scroll Animations
     const observerOptions = {
@@ -71,56 +24,61 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Navbar Scroll Effect (optional, adding shadow)
     const navbar = document.querySelector('.navbar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.style.boxShadow = '0 10px 30px -10px rgba(2,12,27,0.7)';
-        } else {
-            navbar.style.boxShadow = 'none';
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 10px 30px -10px rgba(2,12,27,0.7)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    }
 
     // Mobile Menu Toggle
     const hamburger = document.querySelector('.hamburger');
     const navLinks = document.querySelector('.nav-links');
     const navItems = document.querySelectorAll('.nav-links li');
 
-    hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
 
-        // Staggered animation for links
-        navItems.forEach((link, index) => {
-            if (link.style.animation) {
-                link.style.animation = '';
-            } else {
-                link.style.animation = `fadeInRight 0.5s ease forwards ${index / 7 + 0.3}s`;
-            }
+            // Staggered animation for links
+            navItems.forEach((link, index) => {
+                if (link.style.animation) {
+                    link.style.animation = '';
+                } else {
+                    link.style.animation = `fadeInRight 0.5s ease forwards ${index / 7 + 0.3}s`;
+                }
+            });
         });
-    });
 
-    // Close menu when a link is clicked
-    navLinks.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        hamburger.classList.remove('active');
-    });
+        // Close menu when a link is clicked
+        navLinks.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+        });
+    }
 
     // Scroll to Top Logic
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            scrollToTopBtn.classList.add('active');
-        } else {
-            scrollToTopBtn.classList.remove('active');
-        }
-    });
-
-    scrollToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
+    if (scrollToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('active');
+            } else {
+                scrollToTopBtn.classList.remove('active');
+            }
         });
-    });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
     // Scroll Progress Bar
     const scrollProgress = document.getElementById('scroll-progress');
@@ -336,6 +294,206 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(type, 1000);
     }
+
+    // ==========================================
+    // Contact Form Validation & Submission
+    // ==========================================
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        const nameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const messageError = document.getElementById('message-error');
+        const formSummary = document.getElementById('form-summary');
+        const formStatus = document.getElementById('form-status');
+        const submitBtn = document.getElementById('contact-submit-btn');
+
+        if (nameInput && emailInput && messageInput && submitBtn) {
+            let hasAttemptedSubmit = false;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+            function validateName() {
+                const val = nameInput.value.trim();
+                if (!val) {
+                    return { valid: false, message: 'Full name is required.' };
+                }
+                if (val.length < 2) {
+                    return { valid: false, message: 'Name must be at least 2 characters.' };
+                }
+                return { valid: true };
+            }
+
+            function validateEmail() {
+                const val = emailInput.value.trim();
+                if (!val) {
+                    return { valid: false, message: 'Email address is required.' };
+                }
+                if (!emailPattern.test(val)) {
+                    return { valid: false, message: 'Please enter a valid email address.' };
+                }
+                return { valid: true };
+            }
+
+            function validateMessage() {
+                const val = messageInput.value.trim();
+                if (!val) {
+                    return { valid: false, message: 'Message is required.' };
+                }
+                if (val.length < 10) {
+                    return { valid: false, message: 'Message must be at least 10 characters.' };
+                }
+                return { valid: true };
+            }
+
+            function setFieldError(field, errorEl, message) {
+                field.classList.add('input-error');
+                field.setAttribute('aria-invalid', 'true');
+                if (errorEl) {
+                    field.setAttribute('aria-describedby', errorEl.id);
+                    errorEl.textContent = message;
+                    errorEl.classList.add('visible');
+                }
+            }
+
+            function clearFieldError(field, errorEl) {
+                field.classList.remove('input-error');
+                field.removeAttribute('aria-invalid');
+                field.removeAttribute('aria-describedby');
+                if (errorEl) {
+                    errorEl.textContent = '';
+                    errorEl.classList.remove('visible');
+                }
+            }
+
+            function updateLiveField(field, validator, errorEl) {
+                if (!hasAttemptedSubmit) return;
+                const res = validator();
+                if (res.valid) {
+                    clearFieldError(field, errorEl);
+                } else {
+                    setFieldError(field, errorEl, res.message);
+                }
+
+                const allValid = validateName().valid && validateEmail().valid && validateMessage().valid;
+                if (allValid && formSummary) {
+                    formSummary.classList.remove('visible');
+                }
+            }
+
+            nameInput.addEventListener('input', () => updateLiveField(nameInput, validateName, nameError));
+            emailInput.addEventListener('input', () => updateLiveField(emailInput, validateEmail, emailError));
+            messageInput.addEventListener('input', () => updateLiveField(messageInput, validateMessage, messageError));
+
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                hasAttemptedSubmit = true;
+
+                // Reset previous status banner
+                if (formStatus) {
+                    formStatus.className = 'form-status-msg';
+                    formStatus.textContent = '';
+                    formStatus.style.display = 'none';
+                }
+
+                const nameRes = validateName();
+                const emailRes = validateEmail();
+                const msgRes = validateMessage();
+
+                let firstInvalid = null;
+
+                if (!nameRes.valid) {
+                    setFieldError(nameInput, nameError, nameRes.message);
+                    if (!firstInvalid) firstInvalid = nameInput;
+                } else {
+                    clearFieldError(nameInput, nameError);
+                }
+
+                if (!emailRes.valid) {
+                    setFieldError(emailInput, emailError, emailRes.message);
+                    if (!firstInvalid) firstInvalid = emailInput;
+                } else {
+                    clearFieldError(emailInput, emailError);
+                }
+
+                if (!msgRes.valid) {
+                    setFieldError(messageInput, messageError, msgRes.message);
+                    if (!firstInvalid) firstInvalid = messageInput;
+                } else {
+                    clearFieldError(messageInput, messageError);
+                }
+
+                if (firstInvalid) {
+                    if (formSummary) formSummary.classList.add('visible');
+                    firstInvalid.focus();
+                    return;
+                }
+
+                if (formSummary) formSummary.classList.remove('visible');
+
+                // Disable button & indicate sending state
+                submitBtn.disabled = true;
+                const originalBtnHtml = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span>Sending...</span> <i class="fas fa-spinner fa-spin"></i>';
+
+                const accessKeyInput = contactForm.querySelector('input[name="access_key"]');
+                const accessKeyValue = accessKeyInput ? accessKeyInput.value : 'e0c8f085-3d80-4c2c-9833-82440efc3d32';
+
+                const payload = {
+                    access_key: accessKeyValue,
+                    from_name: 'Portfolio Contact',
+                    name: nameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    message: messageInput.value.trim(),
+                    subject: 'New message from portfolio contact form'
+                };
+
+                try {
+                    const response = await fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data && data.success) {
+                        if (formStatus) {
+                            formStatus.className = 'form-status-msg status-success';
+                            formStatus.style.display = 'flex';
+                            formStatus.innerHTML = '<i class="fas fa-check-circle"></i><span>Message sent successfully! I\'ll get back to you soon.</span>';
+                        }
+
+                        contactForm.reset();
+                        hasAttemptedSubmit = false;
+                        clearFieldError(nameInput, nameError);
+                        clearFieldError(emailInput, emailError);
+                        clearFieldError(messageInput, messageError);
+                        if (formSummary) formSummary.classList.remove('visible');
+                    } else {
+                        if (formStatus) {
+                            formStatus.className = 'form-status-msg status-error';
+                            formStatus.style.display = 'flex';
+                            formStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>Something went wrong while sending your message. Please try again.</span>';
+                        }
+                    }
+                } catch (err) {
+                    if (formStatus) {
+                        formStatus.className = 'form-status-msg status-error';
+                        formStatus.style.display = 'flex';
+                        formStatus.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>Something went wrong while sending your message. Please try again.</span>';
+                    }
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnHtml;
+                }
+            });
+        }
+    }
 });
 
 // Skill Detail Modal Logic
@@ -458,25 +616,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 })();
 
-// Hamburger Menu Logic
-document.addEventListener('DOMContentLoaded', () => {
-    const hamburger = document.querySelector('.hamburger');
-    const navLinks = document.querySelector('.nav-links');
-    const navItems = document.querySelectorAll('.nav-links li a');
-
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        // Close menu when a link is clicked
-        navItems.forEach(item => {
-            item.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
-    }
-});
 

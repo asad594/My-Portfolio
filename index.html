@@ -46,40 +46,6 @@
 </head>
 
 <body>
-    <!-- Welcome Preloader Overlay -->
-    <div id="welcome-screen" class="welcome-screen">
-        <div class="welcome-bg-glow glow-1"></div>
-        <div class="welcome-bg-glow glow-2"></div>
-        
-        <div class="welcome-console">
-            <!-- Concentric scanner rings around Avatar -->
-            <div class="welcome-avatar-wrapper">
-                <div class="scanner-ring scanner-outer"></div>
-                <div class="scanner-ring scanner-inner"></div>
-                <div class="welcome-scanline"></div>
-                <img src="asad.jpeg" alt="Muhammad Asad" class="welcome-avatar">
-            </div>
-
-            <h1 class="welcome-title">Muhammad Asad</h1>
-            <p class="welcome-subtitle">Software Engineering Undergraduate // Bahria University</p>
-
-            <div class="welcome-interactive-zone">
-                <!-- Digital Counter -->
-                <div class="welcome-counter">00%</div>
-                
-                <!-- Progress Loader -->
-                <div class="welcome-loader-container">
-                    <div class="welcome-loader-bar"></div>
-                </div>
-                
-                <!-- Tactile Enter Button -->
-                <button id="enter-portfolio-btn" class="welcome-enter-btn magnetic-target">
-                    <span>Explore Portfolio</span>
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
 
     <div id="scroll-progress" class="scroll-progress"></div>
     <div class="bg-spotlight"></div>
@@ -144,8 +110,8 @@
                 <div class="cta-group">
                     <a href="#projects" class="btn btn-outline magnetic-target">View Projects</a>
                     <a href="#contact" class="btn btn-outline magnetic-target">Contact Me</a>
-                    <a href="muhammad_Asad_Resume.pdf" download="muhammad_Asad_Resume.pdf" class="btn btn-outline magnetic-target"><i
-                            class="fas fa-file-pdf"></i> Download Resume</a>
+                    <a href="muhammad_Asad_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline magnetic-target"><i
+                            class="fas fa-file-pdf"></i> View Resume</a>
                 </div>
             </div>
 
@@ -163,26 +129,9 @@
             <h2 class="section-title">01. About Me</h2>
             <div class="about-content fade-in-on-scroll">
                 <div class="about-text">
-                    <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student who enjoys building desktop
-                        applications in <strong>C#</strong> and <strong>Java</strong>. I have a solid grasp of
-                        <strong>Object-Oriented Programming (OOP)</strong> and have put it into practice through various
-                        logic-based mini-projects and real-world solutions.
-                    </p>
+                    <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student who enjoys building desktop applications in <strong>C#</strong> and <strong>Java</strong>. I have a solid grasp of <strong>Object-Oriented Programming (OOP)</strong> and have applied it through logic-based mini-projects and real-world solutions, using <strong>Java Swing</strong>, <strong>C# Windows Forms</strong> and <strong>Python</strong> to build intuitive, user-friendly interfaces.</p>
 
-                    <p>I have hands-on experience developing desktop-based applications using <strong>C#</strong>,
-                        <strong>Java</strong>, and <strong>Python</strong>, with deep knowledge of <strong>Java
-                            Swing</strong> and <strong>C# Windows Forms</strong> for building intuitive, user-friendly
-                        interfaces. I've also worked extensively with various Python libraries to create practical and
-                        innovative solutions. My expertise in Object-Oriented Programming (OOP) has been demonstrated
-                        through numerous projects, from logic-based mini-apps to complete desktop solutions.
-                    </p>
-
-                    <p>I'm always eager to learn, experiment with new tools, and bring ideas to life through clean,
-                        efficient, and creative code. I'm always open to collaborating on projects, taking on freelance
-                        work, or exploring internship opportunities where I can contribute my skills, continue learning,
-                        and grow alongside others in the tech community.</p>
-
-
+                    <p>I'm always eager to learn and bring ideas to life through clean, efficient code. I'm open to collaborating on projects, freelance work, or internship opportunities where I can contribute my skills and keep growing alongside others in the tech community.</p>
                 </div>
 
                 <div class="about-visuals">
@@ -769,41 +718,39 @@
 
                 <!-- Column 2: Form panel -->
                 <div class="contact-form-panel">
-                    <form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                    <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
                         <input type="hidden" name="access_key" value="e0c8f085-3d80-4c2c-9833-82440efc3d32">
                         <input type="hidden" name="from_name" value="Portfolio Contact">
+                        <input type="hidden" name="subject" value="New message from portfolio contact form">
 
                         <div class="contact-grid">
                             <div class="form-group">
-                                <input type="text" name="name" required placeholder=" ">
-                                <label>Full Name</label>
-                                <span class="focus-border"></span>
+                                <input type="text" id="name" name="name" placeholder=" ">
+                                <label for="name">Full Name</label>
+                                <span class="field-error" id="name-error" role="alert"></span>
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" required placeholder=" ">
-                                <label>Email Address</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="tel" name="phone" placeholder=" ">
-                                <label>Mobile Number</label>
-                                <span class="focus-border"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="subject" required placeholder=" ">
-                                <label>Email Subject</label>
-                                <span class="focus-border"></span>
+                                <input type="email" id="email" name="email" placeholder=" ">
+                                <label for="email">Email Address</label>
+                                <span class="field-error" id="email-error" role="alert"></span>
                             </div>
                         </div>
 
                         <div class="form-group msg-group">
-                            <textarea name="message" rows="4" required placeholder=" "></textarea>
-                            <label>Your Message</label>
-                            <span class="focus-border"></span>
+                            <textarea id="message" name="message" rows="4" placeholder=" "></textarea>
+                            <label for="message">Your Message</label>
+                            <span class="field-error" id="message-error" role="alert"></span>
                         </div>
 
+                        <div id="form-summary" class="form-summary-banner" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Please fix the errors above before sending.</span>
+                        </div>
+
+                        <div id="form-status" class="form-status-msg" role="status"></div>
+
                         <div class="form-btn-wrapper">
-                            <button type="submit" class="btn btn-primary magnetic-target">
+                            <button type="submit" id="contact-submit-btn" class="btn btn-primary magnetic-target">
                                 <span>Send Message</span>
                                 <i class="fas fa-paper-plane"></i>
                             </button>
