@@ -494,6 +494,112 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+
+    // Skills Section Category Filtering
+    const skillTabBtns = document.querySelectorAll('.skill-tab-btn');
+    const skillsGrid = document.querySelector('.skills-grid');
+    const skillCards = document.querySelectorAll('.skill-category');
+
+    if (skillTabBtns.length > 0 && skillCards.length > 0) {
+        let filterTransitionTimeout = null;
+
+        const applyFilter = (filter) => {
+            if (filterTransitionTimeout) {
+                clearTimeout(filterTransitionTimeout);
+                filterTransitionTimeout = null;
+            }
+
+            const isAll = (filter === 'all');
+
+            // Toggle single-card centered row state on container
+            if (skillsGrid) {
+                if (!isAll) {
+                    skillsGrid.classList.add('is-filtered');
+                } else {
+                    skillsGrid.classList.remove('is-filtered');
+                }
+                // Ensure skills grid is visible if scroll-reveal hasn't triggered yet
+                skillsGrid.classList.add('visible');
+            }
+
+            // Update tab button states and aria attributes
+            skillTabBtns.forEach(btn => {
+                const isActive = (btn.getAttribute('data-filter') === filter);
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            // Card visibility and transitions
+            skillCards.forEach(card => {
+                const category = card.getAttribute('data-category');
+                const matches = isAll || (category === filter);
+
+                if (matches) {
+                    // Force visible state so scroll-reveal doesn't leave card hidden
+                    card.classList.add('visible');
+
+                    if (card.classList.contains('hide')) {
+                        // Pre-set fade-out before removing hide so it smoothly transitions in
+                        card.classList.add('fade-out');
+                        card.classList.remove('hide');
+                        requestAnimationFrame(() => {
+                            requestAnimationFrame(() => {
+                                card.classList.remove('fade-out');
+                            });
+                        });
+                    } else {
+                        card.classList.remove('fade-out');
+                    }
+                } else {
+                    // Fade out non-matching cards
+                    card.classList.add('fade-out');
+                }
+            });
+
+            // After CSS transition completes (~280ms), remove non-matching cards from layout
+            filterTransitionTimeout = setTimeout(() => {
+                skillCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const matches = isAll || (category === filter);
+                    if (!matches) {
+                        card.classList.add('hide');
+                    }
+                });
+                filterTransitionTimeout = null;
+            }, 280);
+        };
+
+        // Attach click listeners to tabs
+        skillTabBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter') || 'all';
+                applyFilter(filter);
+            });
+
+            // Keyboard accessibility: Left/Right Arrow, Home/End navigation
+            btn.addEventListener('keydown', (e) => {
+                let targetIdx = null;
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    targetIdx = (index + 1) % skillTabBtns.length;
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    targetIdx = (index - 1 + skillTabBtns.length) % skillTabBtns.length;
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    targetIdx = 0;
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    targetIdx = skillTabBtns.length - 1;
+                }
+
+                if (targetIdx !== null) {
+                    skillTabBtns[targetIdx].focus();
+                    skillTabBtns[targetIdx].click();
+                }
+            });
+        });
+    }
 });
 
 // Skill Detail Modal Logic

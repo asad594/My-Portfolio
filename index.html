@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="style.css?v=8">
     <link rel="stylesheet" href="feature-cards.css?v=8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#07070a">
     <style>
         .skill-badges {
             display: grid !important;
@@ -110,7 +117,7 @@
                 <div class="cta-group">
                     <a href="#projects" class="btn btn-outline magnetic-target">View Projects</a>
                     <a href="#contact" class="btn btn-outline magnetic-target">Contact Me</a>
-                    <a href="muhammad_Asad_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline magnetic-target"><i
+                    <a href="Muhammad_Asad_Resume.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline magnetic-target"><i
                             class="fas fa-file-pdf"></i> View Resume</a>
                 </div>
             </div>
@@ -129,9 +136,7 @@
             <h2 class="section-title">01. About Me</h2>
             <div class="about-content fade-in-on-scroll">
                 <div class="about-text">
-                    <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student who enjoys building desktop applications in <strong>C#</strong> and <strong>Java</strong>. I have a solid grasp of <strong>Object-Oriented Programming (OOP)</strong> and have applied it through logic-based mini-projects and real-world solutions, using <strong>Java Swing</strong>, <strong>C# Windows Forms</strong> and <strong>Python</strong> to build intuitive, user-friendly interfaces.</p>
-
-                    <p>I'm always eager to learn and bring ideas to life through clean, efficient code. I'm open to collaborating on projects, freelance work, or internship opportunities where I can contribute my skills and keep growing alongside others in the tech community.</p>
+                    <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student at Bahria University building desktop and web applications with <strong>C#</strong>, <strong>Java</strong>, <strong>Python</strong> and <strong>Django</strong>. I have a strong grasp of <strong>Object-Oriented Programming (OOP)</strong> and I'm open to internships, freelance work and collaboration.</p>
                 </div>
 
                 <div class="about-visuals">
@@ -212,8 +217,15 @@
     <section id="skills" class="section">
         <div class="container">
             <h2 class="section-title">02. My Skills</h2>
+            <div class="skills-filter-tabs" role="tablist" aria-label="Skill categories">
+                <button type="button" class="skill-tab-btn active" role="tab" aria-selected="true" data-filter="all">All</button>
+                <button type="button" class="skill-tab-btn" role="tab" aria-selected="false" data-filter="languages">Languages & Databases</button>
+                <button type="button" class="skill-tab-btn" role="tab" aria-selected="false" data-filter="backend">Backend & Architecture</button>
+                <button type="button" class="skill-tab-btn" role="tab" aria-selected="false" data-filter="frontend">Frontend & Modern Web</button>
+                <button type="button" class="skill-tab-btn" role="tab" aria-selected="false" data-filter="tools">Tools, Practices & Concepts</button>
+            </div>
             <div class="skills-grid fade-in-on-scroll">
-                <div class="skill-category">
+                <div class="skill-category" data-category="languages">
                     <h3><i class="fas fa-database"></i> Languages & Databases</h3>
                     <div class="skill-list">
                         <div class="skill-item">C#</div>
@@ -230,7 +242,7 @@
                         <div class="skill-item">MIPS Assembly</div>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category" data-category="backend">
                     <h3><i class="fas fa-server"></i> Backend & Architecture</h3>
                     <div class="skill-list">
                         <div class="skill-item">Django</div>
@@ -246,7 +258,7 @@
                         <div class="skill-item">Docker</div>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category" data-category="frontend">
                     <h3><i class="fas fa-laptop-code"></i> Frontend & Modern Web</h3>
                     <div class="skill-list">
                         <div class="skill-item">React 19</div>
@@ -256,7 +268,7 @@
                         <div class="skill-item">HTML/CSS</div>
                     </div>
                 </div>
-                <div class="skill-category">
+                <div class="skill-category" data-category="tools">
                     <h3><i class="fas fa-brain"></i> Tools, Practices & Concepts</h3>
                     <div class="skill-list">
                         <div class="skill-item">Postman API Testing</div>
