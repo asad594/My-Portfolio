@@ -22,34 +22,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#07070a">
-    <style>
-        .skill-badges {
-            display: grid !important;
-            grid-template-columns: 1fr 1fr !important;
-            gap: 20px !important;
-            width: 100% !important;
-            margin-top: 30px !important;
-        }
-
-        .skill-badge {
-            display: flex !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-            border-radius: 12px !important;
-            justify-content: center !important;
-            padding: 14px 28px !important;
-            /* Reverted Size */
-            font-size: 1.05rem !important;
-            white-space: nowrap !important;
-            /* No Wrapping */
-        }
-
-        @media (max-width: 600px) {
-            .skill-badges {
-                grid-template-columns: 1fr !important;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -61,7 +33,14 @@
     <div class="aura-glow aura-3"></div>
     
     <nav class="navbar">
-        <div class="logo">Muhammad Asad<span class="accent"></span></div>
+        <a href="#hero" class="logo" aria-label="Muhammad Asad, home">
+            <svg class="nav-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="36" height="36" aria-hidden="true" focusable="false">
+                <rect class="nav-logo-bg" x="2" y="2" width="60" height="60" rx="14" fill="#07070a" stroke="var(--accent)" stroke-width="1.75" stroke-opacity="0.6"/>
+                <path class="nav-logo-letter" d="M 12.5 46.5 L 12.5 17.5 L 21.25 33.1 L 30 17.5 L 30 46.5" fill="none" stroke="var(--accent)" stroke-width="4.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <path class="nav-logo-letter" d="M 34 46.5 L 43 17.5 L 52 46.5 M 37.75 36 L 48.25 36" fill="none" stroke="var(--accent)" stroke-width="4.75" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="logo-name">Muhammad Asad<span class="accent"></span></span>
+        </a>
         <ul class="nav-links">
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -92,20 +71,51 @@
             <div class="hero-content fade-in-up">
 
                 <h1 class="glitch-text" data-text="Muhammad Asad">Muhammad Asad</h1>
-                <h2 class="subtitle">I specialize in <span class="typed-text"></span><span class="typed-cursor">|</span></h2>
-                <p class="hero-statement">
-                    Software Engineering undergraduate at <strong>Bahria University Karachi</strong> (2028).
-                    I focus on building strong software foundations through hands-on development in
-                    <strong>Python</strong>, <strong>Java</strong>, and <strong>C#</strong>. I work with modern web and application frameworks like
-                    <strong>Django</strong>, <strong>React</strong>, and <strong>.NET Core</strong>, and design secure relational database backends with
-                    <strong>PostgreSQL</strong>, <strong>Microsoft SQL Server</strong>, and <strong>Oracle DB</strong>.
-                    I enjoy turning ideas into clean, functional, and reliable applications while continuously
-                    strengthening my problem-solving and logical thinking skills.
-                    With a growing interest in scalable architectures and modern software development practices, I aim to create efficient,
-                    maintainable solutions and am always eager to learn, improve, and take on new technical challenges.
-                    <span class="hero-footer-text">Feel free to explore my portfolio and get in touch if you'd like to
-                        collaborate or learn more about my work!</span>
-                </p>
+                <h2 class="subtitle" id="heroSubtitle" aria-label="I specialize in Python, Java &amp; C#">
+                    <span class="hero-role-static">I specialize in</span>
+                    <span class="hero-role-typed" aria-hidden="true"><span class="typed-visible"></span><span class="typed-cursor" aria-hidden="true"></span><span class="typed-remaining">Python, Java &amp; C#</span></span>
+                </h2>
+                <div class="hero-timeline" id="heroTimeline" role="list" aria-label="Key highlights">
+                    <div class="hero-timeline-track" aria-hidden="true">
+                        <div class="hero-timeline-progress" id="heroTimelineProgress"></div>
+                    </div>
+                    <div class="hero-timeline-item active-item" role="listitem" tabindex="0" data-index="0">
+                        <span class="timeline-marker active-marker" aria-hidden="true"></span>
+                        <div class="hero-timeline-text">
+                            Software Engineering undergraduate at <strong>Bahria University Karachi</strong> (2028).
+                        </div>
+                    </div>
+                    <div class="hero-timeline-item" role="listitem" tabindex="0" data-index="1">
+                        <span class="timeline-marker" aria-hidden="true"></span>
+                        <div class="hero-timeline-text">
+                            Building strong software foundations through hands-on development in <strong>Python</strong>, <strong>Java</strong> and <strong>C#</strong>.
+                        </div>
+                    </div>
+                    <div class="hero-timeline-item" role="listitem" tabindex="0" data-index="2">
+                        <span class="timeline-marker" aria-hidden="true"></span>
+                        <div class="hero-timeline-text">
+                            Working with modern frameworks: <strong>Django</strong>, <strong>React</strong> and <strong>.NET Core</strong>.
+                        </div>
+                    </div>
+                    <div class="hero-timeline-item" role="listitem" tabindex="0" data-index="3">
+                        <span class="timeline-marker" aria-hidden="true"></span>
+                        <div class="hero-timeline-text">
+                            Designing secure relational database backends with <strong>PostgreSQL</strong>, <strong>Microsoft SQL Server</strong> and <strong>Oracle DB</strong>.
+                        </div>
+                    </div>
+                    <div class="hero-timeline-item" role="listitem" tabindex="0" data-index="4">
+                        <span class="timeline-marker" aria-hidden="true"></span>
+                        <div class="hero-timeline-text">
+                            Turning ideas into clean, functional and reliable applications while strengthening problem-solving and logical thinking.
+                        </div>
+                    </div>
+                    <div class="hero-timeline-item" role="listitem" tabindex="0" data-index="5">
+                        <span class="timeline-marker" aria-hidden="true"></span>
+                        <div class="hero-timeline-text">
+                            Growing interest in scalable architectures and modern software development practices, always eager to learn, improve and take on new challenges.
+                        </div>
+                    </div>
+                </div>
                 <div class="social-hero-icons">
                     <a href="https://www.linkedin.com/in/muhammadasad-arshad/" target="_blank" rel="noopener noreferrer"
                         class="social-icon-btn linkedin magnetic-target"><i class="fab fa-linkedin-in"></i></a>
@@ -135,60 +145,12 @@
         <div class="container">
             <h2 class="section-title">01. About Me</h2>
             <div class="about-content fade-in-on-scroll">
-                <div class="about-text">
-                    <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student at Bahria University building desktop and web applications with <strong>C#</strong>, <strong>Java</strong>, <strong>Python</strong> and <strong>Django</strong>. I have a strong grasp of <strong>Object-Oriented Programming (OOP)</strong> and I'm open to internships, freelance work and collaboration.</p>
-                </div>
+                <div class="about-intro">
+                    <div class="about-text">
+                        <p>I'm <strong>Muhammad Asad</strong>, a Software Engineering student at Bahria University building desktop and web applications with <strong>C#</strong>, <strong>Java</strong>, <strong>Python</strong> and <strong>Django</strong>. I have a strong grasp of <strong>Object-Oriented Programming (OOP)</strong> and I'm open to internships, freelance work and collaboration.</p>
+                    </div>
 
-                <div class="about-visuals">
-                    <div class="about-features">
-                        <div class="feature-card">
-                            <div class="feature-icon">
-                                <i class="fas fa-code"></i>
-                            </div>
-                            <h3>Clean Code</h3>
-                            <p>Writing maintainable and scalable solutions with best practices</p>
-                        </div>
-
-                        <div class="feature-card card-purple">
-                            <div class="feature-icon icon-purple">
-                                <i class="fas fa-desktop"></i>
-                            </div>
-                            <h3>Desktop Applications</h3>
-                            <p>Building robust desktop apps with C# Windows Forms & Java Swing</p>
-                        </div>
-
-                        <div class="feature-card card-green">
-                            <div class="feature-icon icon-green">
-                                <i class="fas fa-cube"></i>
-                            </div>
-                            <h3>OOP Mastery</h3>
-                            <p>Deep understanding of object-oriented design patterns</p>
-                        </div>
-
-                        <div class="feature-card card-yellow">
-                            <div class="feature-icon icon-yellow">
-                                <i class="fas fa-bolt"></i>
-                            </div>
-                            <h3>Performance</h3>
-                            <p>Optimized and efficient applications with clean architecture</p>
-                        </div>
-
-                        <div class="feature-card card-red">
-                            <div class="feature-icon icon-red">
-                                <i class="fas fa-puzzle-piece"></i>
-                            </div>
-                            <h3>Problem Solving</h3>
-                            <p>Turning complex challenges into elegant solutions</p>
-                        </div>
-
-                        <div class="feature-card card-blue">
-                            <div class="feature-icon icon-blue">
-                                <i class="fas fa-rocket"></i>
-                            </div>
-                            <h3>Continuous Learning</h3>
-                            <p>Always exploring new technologies and frameworks</p>
-                        </div>
-
+                    <div class="about-pills">
                         <div class="skill-badge badge-blue magnetic-target">
                             <i class="fas fa-star"></i>
                             <span>Problem Solver</span>
@@ -208,6 +170,56 @@
                             <i class="fas fa-lightbulb"></i>
                             <span>Creative Thinker</span>
                         </div>
+                    </div>
+                </div>
+
+                <div class="about-features">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Clean Code</h3>
+                        <p>Writing maintainable and scalable solutions with best practices</p>
+                    </div>
+
+                    <div class="feature-card card-purple">
+                        <div class="feature-icon icon-purple">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3>Desktop Applications</h3>
+                        <p>Building robust desktop apps with C# Windows Forms & Java Swing</p>
+                    </div>
+
+                    <div class="feature-card card-green">
+                        <div class="feature-icon icon-green">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3>OOP Mastery</h3>
+                        <p>Deep understanding of object-oriented design patterns</p>
+                    </div>
+
+                    <div class="feature-card card-yellow">
+                        <div class="feature-icon icon-yellow">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>Performance</h3>
+                        <p>Optimized and efficient applications with clean architecture</p>
+                    </div>
+
+                    <div class="feature-card card-red">
+                        <div class="feature-icon icon-red">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <h3>Problem Solving</h3>
+                        <p>Turning complex challenges into elegant solutions</p>
+                    </div>
+
+                    <div class="feature-card card-blue">
+                        <div class="feature-icon icon-blue">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Continuous Learning</h3>
+                        <p>Always exploring new technologies and frameworks</p>
                     </div>
                 </div>
             </div>

@@ -271,40 +271,217 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // Auto-Typing Hero Subtitle Animation
+    // Auto-Typing Hero Subtitle Animation (Fixed 2-Line Architecture)
     // ==========================================
-    const typedTextSpan = document.querySelector('.typed-text');
-    if (typedTextSpan) {
-        const textArray = ["Python, Java & C#", "Modern Web Frameworks", "Object-Oriented Programming", "Scalable Database Architectures"];
+    const subtitleEl = document.getElementById('heroSubtitle') || document.querySelector('.subtitle');
+    const heroRoleTyped = subtitleEl ? subtitleEl.querySelector('.hero-role-typed') : null;
+
+    if (subtitleEl && heroRoleTyped) {
+        let typedVisible = heroRoleTyped.querySelector('.typed-visible');
+        let typedRemaining = heroRoleTyped.querySelector('.typed-remaining');
+        let typedCursor = heroRoleTyped.querySelector('.typed-cursor');
+
+        // Ensure sub-elements exist
+        if (!typedVisible) {
+            typedVisible = document.createElement('span');
+            typedVisible.className = 'typed-visible';
+            heroRoleTyped.prepend(typedVisible);
+        }
+        if (!typedCursor) {
+            typedCursor = document.createElement('span');
+            typedCursor.className = 'typed-cursor';
+            typedCursor.setAttribute('aria-hidden', 'true');
+            heroRoleTyped.appendChild(typedCursor);
+        }
+        if (!typedRemaining) {
+            typedRemaining = document.createElement('span');
+            typedRemaining.className = 'typed-remaining';
+            typedRemaining.setAttribute('aria-hidden', 'true');
+            heroRoleTyped.appendChild(typedRemaining);
+        }
+
+        const textArray = [
+            "Python, Java & C#",
+            "Modern Web Frameworks",
+            "Object-Oriented Programming",
+            "Scalable Database Architectures"
+        ];
         const typingSpeed = 100;
         const erasingSpeed = 60;
         const newTextDelay = 2000;
+        const nextPhraseDelay = typingSpeed + 500;
         let textArrayIndex = 0;
         let charIndex = 0;
+        let typingTimeout = null;
+
+        // Off-screen measuring span for Auto-Fitting Line 2
+        let measureSpan = document.getElementById('heroRoleMeasure');
+        if (!measureSpan) {
+            measureSpan = document.createElement('span');
+            measureSpan.id = 'heroRoleMeasure';
+            measureSpan.setAttribute('aria-hidden', 'true');
+            document.body.appendChild(measureSpan);
+        }
+
+        function fitHeroTypedLine() {
+            if (!heroRoleTyped || !subtitleEl) return;
+
+            // Clear inline font-size and white-space to measure based on CSS clamp
+            heroRoleTyped.style.fontSize = '';
+            heroRoleTyped.style.whiteSpace = 'nowrap';
+
+            // Available column width: getBoundingClientRect of column minus its padding
+            const column = subtitleEl.closest('.hero-content') || subtitleEl.parentElement || subtitleEl;
+            const colRect = column.getBoundingClientRect();
+            const colStyle = window.getComputedStyle(column);
+            const colPadding = (parseFloat(colStyle.paddingLeft) || 0) + (parseFloat(colStyle.paddingRight) || 0);
+            const availableColumnWidth = colRect.width - colPadding;
+            if (availableColumnWidth <= 0) return;
+
+            const computedTyped = window.getComputedStyle(heroRoleTyped);
+            const baseFontSizePx = parseFloat(computedTyped.fontSize) || 32;
+
+            // Minimum font-size allowed: down to 1rem (~16px)
+            const rootFontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
+            const minFontSizePx = 1.0 * rootFontSize; // Exactly 1rem (~16px)
+
+            // Include cursor width, its gap and any padding in the measured width
+            const cursorStyle = typedCursor ? window.getComputedStyle(typedCursor) : null;
+            const cursorW = typedCursor ? (parseFloat(cursorStyle.width) || 3) : 3;
+            const cursorGap = typedCursor ? (parseFloat(cursorStyle.marginLeft) || 4) : 4;
+            const cursorExtraSpace = cursorW + cursorGap; // ~7-8px
+
+            // Configure measuring span with identical font styling
+            measureSpan.style.fontFamily = computedTyped.fontFamily;
+            measureSpan.style.fontWeight = computedTyped.fontWeight;
+            measureSpan.style.letterSpacing = computedTyped.letterSpacing;
+            measureSpan.style.whiteSpace = 'nowrap';
+            measureSpan.style.display = 'inline-block';
+            measureSpan.style.boxSizing = 'content-box';
+
+            function getWidestPhraseWidth(sizePx) {
+                measureSpan.style.fontSize = `${sizePx}px`;
+                let maxWidth = 0;
+                for (let i = 0; i < textArray.length; i++) {
+                    measureSpan.textContent = textArray[i];
+                    const w = measureSpan.getBoundingClientRect().width;
+                    if (w > maxWidth) maxWidth = w;
+                }
+                return maxWidth;
+            }
+
+            let currentSizePx = baseFontSizePx;
+            let widestWidth = getWidestPhraseWidth(currentSizePx);
+            let totalNeededWidth = widestWidth + cursorExtraSpace;
+
+            // Reduce font-size step by step until it fits inside column width or reaches minFontSizePx (1rem)
+            while (totalNeededWidth > availableColumnWidth && currentSizePx > minFontSizePx) {
+                currentSizePx = Math.max(minFontSizePx, currentSizePx - 0.5);
+                widestWidth = getWidestPhraseWidth(currentSizePx);
+                totalNeededWidth = widestWidth + cursorExtraSpace;
+            }
+
+            // Expose widest phrase width via CSS variable for background-size only (never layout width)
+            const fixedTypedWidth = Math.ceil(widestWidth);
+            heroRoleTyped.style.setProperty('--typed-width', `${fixedTypedWidth}px`);
+            subtitleEl.style.setProperty('--typed-width', `${fixedTypedWidth}px`);
+
+            const l1El = subtitleEl.querySelector('.hero-role-static');
+            const l1Height = l1El ? l1El.getBoundingClientRect().height : 30;
+
+            if (totalNeededWidth <= availableColumnWidth) {
+                // Fits cleanly on exactly ONE line
+                heroRoleTyped.style.fontSize = `${currentSizePx}px`;
+                heroRoleTyped.style.whiteSpace = 'nowrap';
+                const oneLineHeight = Math.ceil(currentSizePx * 1.25);
+                heroRoleTyped.style.minHeight = `${oneLineHeight}px`;
+                subtitleEl.style.minHeight = `${Math.ceil(l1Height + 4 + oneLineHeight)}px`;
+            } else {
+                // Narrow-screen fallback: allows wrapping ONLY if even 1rem cannot fit
+                heroRoleTyped.style.fontSize = `${minFontSizePx}px`;
+                heroRoleTyped.style.whiteSpace = 'normal';
+                const twoLineHeight = Math.ceil(minFontSizePx * 1.25 * 2);
+                heroRoleTyped.style.minHeight = `${twoLineHeight}px`;
+                subtitleEl.style.minHeight = `${Math.ceil(l1Height + 4 + twoLineHeight)}px`;
+            }
+        }
+
+        function updatePhraseDisplay() {
+            const currentPhrase = textArray[textArrayIndex];
+            typedVisible.textContent = currentPhrase.substring(0, charIndex);
+            typedRemaining.textContent = currentPhrase.substring(charIndex);
+            subtitleEl.setAttribute('aria-label', `I specialize in ${currentPhrase}`);
+        }
+
+        // Set initial phrase state and fit immediately
+        charIndex = 0;
+        updatePhraseDisplay();
+        fitHeroTypedLine();
+
+        // Recalculate after web fonts finish loading
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(() => {
+                fitHeroTypedLine();
+            });
+        }
+
+        // Debounced resize handler (~150ms)
+        let resizeTimer = null;
+        window.addEventListener('resize', () => {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                fitHeroTypedLine();
+            }, 150);
+        });
+
+        // Recalculate on mobile orientation change
+        window.addEventListener('orientationchange', () => {
+            setTimeout(fitHeroTypedLine, 150);
+        });
+
+        // Respect prefers-reduced-motion: show first phrase statically without animation
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            charIndex = textArray[0].length;
+            updatePhraseDisplay();
+            if (typedCursor) {
+                typedCursor.style.display = 'none';
+            }
+            return;
+        }
+
+        function setTypingTimeout(fn, delay) {
+            if (typingTimeout) clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(fn, delay);
+        }
 
         function type() {
-            if (charIndex < textArray[textArrayIndex].length) {
-                typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+            const currentPhrase = textArray[textArrayIndex];
+            if (charIndex < currentPhrase.length) {
                 charIndex++;
-                setTimeout(type, typingSpeed);
+                updatePhraseDisplay();
+                setTypingTimeout(type, typingSpeed);
             } else {
-                setTimeout(erase, newTextDelay);
+                setTypingTimeout(erase, newTextDelay);
             }
         }
 
         function erase() {
+            const currentPhrase = textArray[textArrayIndex];
             if (charIndex > 0) {
-                typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex - 1);
                 charIndex--;
-                setTimeout(erase, erasingSpeed);
+                updatePhraseDisplay();
+                setTypingTimeout(erase, erasingSpeed);
             } else {
-                textArrayIndex++;
-                if (textArrayIndex >= textArray.length) textArrayIndex = 0;
-                setTimeout(type, typingSpeed + 500);
+                textArrayIndex = (textArrayIndex + 1) % textArray.length;
+                charIndex = 0;
+                updatePhraseDisplay();
+                setTypingTimeout(type, nextPhraseDelay);
             }
         }
 
-        setTimeout(type, 1000);
+        // Start typing after initial delay
+        setTypingTimeout(type, 1000);
     }
 
     // ==========================================
@@ -611,6 +788,150 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         });
+    }
+
+    // ==========================================
+    // Hero Interactive Timeline Component
+    // ==========================================
+    const heroTimeline = document.getElementById('heroTimeline');
+    if (heroTimeline) {
+        const items = Array.from(heroTimeline.querySelectorAll('.hero-timeline-item'));
+        const progressLine = document.getElementById('heroTimelineProgress');
+        const track = heroTimeline.querySelector('.hero-timeline-track');
+        let activeIndex = 0;
+        let isUserInteracting = false;
+        let introTimer = null;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function updateProgress(index) {
+            if (!items[index] || !progressLine || !track) return;
+            const trackRect = track.getBoundingClientRect();
+            const marker = items[index].querySelector('.timeline-marker');
+            if (!marker) return;
+            const markerRect = marker.getBoundingClientRect();
+            // Calculate distance from top of track to center of active marker
+            const targetHeight = Math.max(0, (markerRect.top + markerRect.height / 2) - trackRect.top);
+            progressLine.style.height = `${targetHeight}px`;
+        }
+
+        function setActivePoint(index, userTriggered = false) {
+            if (index < 0 || index >= items.length) return;
+            if (userTriggered) {
+                isUserInteracting = true;
+                if (introTimer) {
+                    clearTimeout(introTimer);
+                    introTimer = null;
+                }
+                // Ensure all items are fully visible if user interacted early
+                items.forEach(el => {
+                    el.style.opacity = '';
+                    el.style.transform = '';
+                });
+            }
+
+            activeIndex = index;
+            items.forEach((item, i) => {
+                const marker = item.querySelector('.timeline-marker');
+                if (i === index) {
+                    item.classList.add('active-item');
+                    if (marker) marker.classList.add('active-marker');
+                } else {
+                    item.classList.remove('active-item');
+                    if (marker) marker.classList.remove('active-marker');
+                }
+            });
+            updateProgress(index);
+        }
+
+        // Attach events: hover, click, keyboard focus and Enter/Space activation
+        items.forEach((item, idx) => {
+            item.addEventListener('mouseenter', () => setActivePoint(idx, true));
+            item.addEventListener('click', () => setActivePoint(idx, true));
+            item.addEventListener('focus', () => setActivePoint(idx, true));
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setActivePoint(idx, true);
+                }
+            });
+        });
+
+        // Window resize adjusts progress line height
+        window.addEventListener('resize', () => {
+            updateProgress(activeIndex);
+        });
+
+        // Initialize progress line on load
+        requestAnimationFrame(() => {
+            updateProgress(0);
+        });
+
+        // Entrance stagger and step-through sequence
+        if (!prefersReducedMotion) {
+            // Initially prepare items for staggered reveal
+            items.forEach((item) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(10px)';
+                item.style.transition = 'opacity 0.35s ease, transform 0.35s ease, color 0.3s ease';
+            });
+
+            let currentStep = 0;
+            const stepInterval = 280; // ms per step
+
+            const runIntro = () => {
+                if (isUserInteracting) return;
+
+                if (currentStep < items.length) {
+                    items[currentStep].style.opacity = '';
+                    items[currentStep].style.transform = '';
+                    setActivePoint(currentStep, false);
+                    currentStep++;
+                    introTimer = setTimeout(runIntro, stepInterval);
+                } else {
+                    // All points revealed; end with all points readable and settle on first point
+                    items.forEach((item) => {
+                        item.style.opacity = '';
+                        item.style.transform = '';
+                    });
+                    introTimer = setTimeout(() => {
+                        if (!isUserInteracting) {
+                            setActivePoint(0, false);
+                        }
+                    }, 400);
+                }
+            };
+
+            // Start intro sequence after hero fade-in animation starts
+            introTimer = setTimeout(runIntro, 600);
+        } else {
+            // Respect reduced motion: no animations/stagger, all points visible immediately
+            items.forEach((item) => {
+                item.style.opacity = '';
+                item.style.transform = '';
+            });
+            setActivePoint(0, false);
+        }
+
+        // Scroll activation via IntersectionObserver / scroll spy
+        if ('IntersectionObserver' in window) {
+            const pointObserver = new IntersectionObserver((entries) => {
+                if (isUserInteracting) return;
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting && !isUserInteracting) {
+                        const idx = parseInt(entry.target.getAttribute('data-index'), 10);
+                        if (!isNaN(idx)) {
+                            setActivePoint(idx, false);
+                        }
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '-20% 0px -40% 0px',
+                threshold: 0.5
+            });
+
+            items.forEach((item) => pointObserver.observe(item));
+        }
     }
 });
 

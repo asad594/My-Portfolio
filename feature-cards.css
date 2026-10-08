@@ -1,14 +1,24 @@
 /* Glassmorphism Feature Cards - Overrides */
 .about-features {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 20px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 24px !important;
+    align-items: stretch !important;
+    width: 100% !important;
     margin-top: 0 !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
+    .about-features {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px !important;
+    }
+}
+
+@media (max-width: 599px) {
     .about-features {
         grid-template-columns: 1fr !important;
+        gap: 16px !important;
     }
 }
 
@@ -18,13 +28,17 @@
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05) !important;
     border-radius: 20px !important;
-    padding: 25px !important;
+    padding: 26px 24px !important;
     text-align: left !important;
     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.4s ease, box-shadow 0.4s ease !important;
     box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.3) !important;
     position: relative;
     overflow: hidden;
     cursor: pointer;
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
 }
 
 /* Mouse spotlight glow reflection overlay */
