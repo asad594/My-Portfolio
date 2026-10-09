@@ -271,14 +271,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
-    // Auto-Typing Hero Subtitle Animation (Fixed 2-Line Architecture)
+    // Auto-Typing Hero Subtitle Animation (Single-Line Architecture)
     // ==========================================
     const subtitleEl = document.getElementById('heroSubtitle') || document.querySelector('.subtitle');
+    const heroRoleLine = subtitleEl ? subtitleEl.querySelector('.hero-role-line') : null;
+    const heroRoleStatic = subtitleEl ? subtitleEl.querySelector('.hero-role-static') : null;
     const heroRoleTyped = subtitleEl ? subtitleEl.querySelector('.hero-role-typed') : null;
 
-    if (subtitleEl && heroRoleTyped) {
+    if (subtitleEl && heroRoleLine && heroRoleTyped) {
         let typedVisible = heroRoleTyped.querySelector('.typed-visible');
-        let typedRemaining = heroRoleTyped.querySelector('.typed-remaining');
         let typedCursor = heroRoleTyped.querySelector('.typed-cursor');
 
         // Ensure sub-elements exist
@@ -293,19 +294,35 @@ document.addEventListener('DOMContentLoaded', () => {
             typedCursor.setAttribute('aria-hidden', 'true');
             heroRoleTyped.appendChild(typedCursor);
         }
-        if (!typedRemaining) {
-            typedRemaining = document.createElement('span');
-            typedRemaining.className = 'typed-remaining';
-            typedRemaining.setAttribute('aria-hidden', 'true');
-            heroRoleTyped.appendChild(typedRemaining);
-        }
 
-        const textArray = [
-            "Python, Java & C#",
-            "Modern Web Frameworks",
-            "Object-Oriented Programming",
-            "Scalable Database Architectures"
+        // Clean up any obsolete typed-remaining elements
+        const oldRemaining = heroRoleTyped.querySelector('.typed-remaining');
+        if (oldRemaining) oldRemaining.remove();
+
+        const phrases = [
+            {
+                full: "Python, Java & C#",
+                short: "Python, Java, C#",
+                tiny: "Python & Java"
+            },
+            {
+                full: "Modern Web Frameworks",
+                short: "Web Frameworks",
+                tiny: "Web Frameworks"
+            },
+            {
+                full: "Object-Oriented Programming",
+                short: "OOP",
+                tiny: "OOP"
+            },
+            {
+                full: "Scalable Database Architectures",
+                short: "Scalable Databases",
+                tiny: "Scalable DBs"
+            }
         ];
+
+        let activePhrases = phrases.map(p => p.full);
         const typingSpeed = 100;
         const erasingSpeed = 60;
         const newTextDelay = 2000;
@@ -313,8 +330,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let textArrayIndex = 0;
         let charIndex = 0;
         let typingTimeout = null;
+        let currentFontSizePx = 28;
 
-        // Off-screen measuring span for Auto-Fitting Line 2
+        // Off-screen measuring span for Auto-Fitting Single Line
         let measureSpan = document.getElementById('heroRoleMeasure');
         if (!measureSpan) {
             measureSpan = document.createElement('span');
@@ -323,14 +341,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(measureSpan);
         }
 
-        function fitHeroTypedLine() {
-            if (!heroRoleTyped || !subtitleEl) return;
+        function getPhraseRatio(phrase) {
+            measureSpan.style.fontSize = '100px';
+            measureSpan.innerHTML = `<span class="hero-role-static" style="font-weight:600;">I specialize in </span><span class="hero-role-typed" style="font-weight:700;">${phrase}</span>`;
+            const textWidth100 = measureSpan.getBoundingClientRect().width;
+            // Add cursor width (3px) and margin gap (0.45ch at 100px ~= 25px) at reference 100px
+            const cursorExtra100 = 28;
+            return (textWidth100 + cursorExtra100) / 100;
+        }
 
-            // Clear inline font-size and white-space to measure based on CSS clamp
-            heroRoleTyped.style.fontSize = '';
-            heroRoleTyped.style.whiteSpace = 'nowrap';
+        function fitHeroSingleLine() {
+            if (!heroRoleLine || !subtitleEl) return;
 
-            // Available column width: getBoundingClientRect of column minus its padding
+            // Measure column content width
             const column = subtitleEl.closest('.hero-content') || subtitleEl.parentElement || subtitleEl;
             const colRect = column.getBoundingClientRect();
             const colStyle = window.getComputedStyle(column);
@@ -338,90 +361,90 @@ document.addEventListener('DOMContentLoaded', () => {
             const availableColumnWidth = colRect.width - colPadding;
             if (availableColumnWidth <= 0) return;
 
-            const computedTyped = window.getComputedStyle(heroRoleTyped);
-            const baseFontSizePx = parseFloat(computedTyped.fontSize) || 32;
-
-            // Minimum font-size allowed: down to 1rem (~16px)
             const rootFontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize) || 16;
-            const minFontSizePx = 1.0 * rootFontSize; // Exactly 1rem (~16px)
+            const minFontSizePx = 1.15 * rootFontSize; // Exactly 1.15rem (~18.4px)
+            const maxFontSizePx = 1.75 * rootFontSize; // Current desktop heading size (~28px)
 
-            // Include cursor width, its gap and any padding in the measured width
-            const cursorStyle = typedCursor ? window.getComputedStyle(typedCursor) : null;
-            const cursorW = typedCursor ? (parseFloat(cursorStyle.width) || 3) : 3;
-            const cursorGap = typedCursor ? (parseFloat(cursorStyle.marginLeft) || 4) : 4;
-            const cursorExtraSpace = cursorW + cursorGap; // ~7-8px
-
-            // Configure measuring span with identical font styling
-            measureSpan.style.fontFamily = computedTyped.fontFamily;
-            measureSpan.style.fontWeight = computedTyped.fontWeight;
-            measureSpan.style.letterSpacing = computedTyped.letterSpacing;
+            // Configure measuring span font styling identical to heading
+            const computedLine = window.getComputedStyle(heroRoleLine);
+            measureSpan.style.fontFamily = computedLine.fontFamily;
+            measureSpan.style.letterSpacing = computedLine.letterSpacing;
             measureSpan.style.whiteSpace = 'nowrap';
             measureSpan.style.display = 'inline-block';
             measureSpan.style.boxSizing = 'content-box';
 
-            function getWidestPhraseWidth(sizePx) {
-                measureSpan.style.fontSize = `${sizePx}px`;
-                let maxWidth = 0;
-                for (let i = 0; i < textArray.length; i++) {
-                    measureSpan.textContent = textArray[i];
-                    const w = measureSpan.getBoundingClientRect().width;
-                    if (w > maxWidth) maxWidth = w;
+            // Select variant for each phrase (full, short, or tiny if needed)
+            const chosenVariants = [];
+            for (let i = 0; i < phrases.length; i++) {
+                const item = phrases[i];
+                const fullRatio = getPhraseRatio(item.full);
+                const fullMaxFont = availableColumnWidth / fullRatio;
+
+                if (fullMaxFont >= minFontSizePx) {
+                    chosenVariants.push({ text: item.full, ratio: fullRatio });
+                } else {
+                    const shortRatio = getPhraseRatio(item.short);
+                    const shortMaxFont = availableColumnWidth / shortRatio;
+                    if (shortMaxFont >= minFontSizePx || !item.tiny) {
+                        chosenVariants.push({ text: item.short, ratio: shortRatio });
+                    } else {
+                        const tinyRatio = getPhraseRatio(item.tiny);
+                        chosenVariants.push({ text: item.tiny, ratio: tinyRatio });
+                    }
                 }
-                return maxWidth;
             }
 
-            let currentSizePx = baseFontSizePx;
-            let widestWidth = getWidestPhraseWidth(currentSizePx);
-            let totalNeededWidth = widestWidth + cursorExtraSpace;
+            activePhrases = chosenVariants.map(v => v.text);
 
-            // Reduce font-size step by step until it fits inside column width or reaches minFontSizePx (1rem)
-            while (totalNeededWidth > availableColumnWidth && currentSizePx > minFontSizePx) {
-                currentSizePx = Math.max(minFontSizePx, currentSizePx - 0.5);
-                widestWidth = getWidestPhraseWidth(currentSizePx);
-                totalNeededWidth = widestWidth + cursorExtraSpace;
+            // Calculate ONE constant font-size for the whole heading
+            let smallestMaxFont = Infinity;
+            for (let i = 0; i < chosenVariants.length; i++) {
+                const maxFont = availableColumnWidth / chosenVariants[i].ratio;
+                if (maxFont < smallestMaxFont) {
+                    smallestMaxFont = maxFont;
+                }
             }
 
-            // Expose widest phrase width via CSS variable for background-size only (never layout width)
-            const fixedTypedWidth = Math.ceil(widestWidth);
-            heroRoleTyped.style.setProperty('--typed-width', `${fixedTypedWidth}px`);
-            subtitleEl.style.setProperty('--typed-width', `${fixedTypedWidth}px`);
+            currentFontSizePx = Math.max(minFontSizePx, Math.min(maxFontSizePx, smallestMaxFont));
 
-            const l1El = subtitleEl.querySelector('.hero-role-static');
-            const l1Height = l1El ? l1El.getBoundingClientRect().height : 30;
+            // Apply constant font-size and stable single-line height
+            subtitleEl.style.fontSize = `${currentFontSizePx}px`;
+            subtitleEl.style.lineHeight = '1.3';
+            const fixedLineHeight = Math.ceil(currentFontSizePx * 1.3);
+            subtitleEl.style.minHeight = `${fixedLineHeight}px`;
 
-            if (totalNeededWidth <= availableColumnWidth) {
-                // Fits cleanly on exactly ONE line
-                heroRoleTyped.style.fontSize = `${currentSizePx}px`;
-                heroRoleTyped.style.whiteSpace = 'nowrap';
-                const oneLineHeight = Math.ceil(currentSizePx * 1.25);
-                heroRoleTyped.style.minHeight = `${oneLineHeight}px`;
-                subtitleEl.style.minHeight = `${Math.ceil(l1Height + 4 + oneLineHeight)}px`;
-            } else {
-                // Narrow-screen fallback: allows wrapping ONLY if even 1rem cannot fit
-                heroRoleTyped.style.fontSize = `${minFontSizePx}px`;
-                heroRoleTyped.style.whiteSpace = 'normal';
-                const twoLineHeight = Math.ceil(minFontSizePx * 1.25 * 2);
-                heroRoleTyped.style.minHeight = `${twoLineHeight}px`;
-                subtitleEl.style.minHeight = `${Math.ceil(l1Height + 4 + twoLineHeight)}px`;
-            }
+            updateLineWidth();
+        }
+
+        window.fitHeroSingleLine = fitHeroSingleLine;
+        window.getActiveHeroPhrases = () => activePhrases;
+
+        function updateLineWidth() {
+            if (!heroRoleLine || activePhrases.length === 0) return;
+            const currentFullPhrase = activePhrases[textArrayIndex] || activePhrases[0];
+            measureSpan.style.fontSize = `${currentFontSizePx}px`;
+            measureSpan.innerHTML = `<span class="hero-role-static" style="font-weight:600;">I specialize in </span><span class="hero-role-typed" style="font-weight:700;">${currentFullPhrase}</span>`;
+            const fullWidth = Math.ceil(measureSpan.getBoundingClientRect().width);
+            heroRoleLine.style.setProperty('--line-width', `${fullWidth}px`);
+            subtitleEl.style.setProperty('--line-width', `${fullWidth}px`);
         }
 
         function updatePhraseDisplay() {
-            const currentPhrase = textArray[textArrayIndex];
+            const currentPhrase = activePhrases[textArrayIndex] || activePhrases[0];
             typedVisible.textContent = currentPhrase.substring(0, charIndex);
-            typedRemaining.textContent = currentPhrase.substring(charIndex);
             subtitleEl.setAttribute('aria-label', `I specialize in ${currentPhrase}`);
         }
 
         // Set initial phrase state and fit immediately
         charIndex = 0;
+        fitHeroSingleLine();
         updatePhraseDisplay();
-        fitHeroTypedLine();
 
         // Recalculate after web fonts finish loading
         if (document.fonts && document.fonts.ready) {
             document.fonts.ready.then(() => {
-                fitHeroTypedLine();
+                fitHeroSingleLine();
+                updatePhraseDisplay();
             });
         }
 
@@ -430,19 +453,24 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', () => {
             if (resizeTimer) clearTimeout(resizeTimer);
             resizeTimer = setTimeout(() => {
-                fitHeroTypedLine();
+                fitHeroSingleLine();
+                updatePhraseDisplay();
             }, 150);
         });
 
         // Recalculate on mobile orientation change
         window.addEventListener('orientationchange', () => {
-            setTimeout(fitHeroTypedLine, 150);
+            setTimeout(() => {
+                fitHeroSingleLine();
+                updatePhraseDisplay();
+            }, 150);
         });
 
         // Respect prefers-reduced-motion: show first phrase statically without animation
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (prefersReducedMotion) {
-            charIndex = textArray[0].length;
+            charIndex = activePhrases[0].length;
+            updateLineWidth();
             updatePhraseDisplay();
             if (typedCursor) {
                 typedCursor.style.display = 'none';
@@ -456,7 +484,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function type() {
-            const currentPhrase = textArray[textArrayIndex];
+            const currentPhrase = activePhrases[textArrayIndex] || activePhrases[0];
+            if (charIndex === 0) {
+                updateLineWidth();
+            }
             if (charIndex < currentPhrase.length) {
                 charIndex++;
                 updatePhraseDisplay();
@@ -467,14 +498,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function erase() {
-            const currentPhrase = textArray[textArrayIndex];
+            const currentPhrase = activePhrases[textArrayIndex] || activePhrases[0];
             if (charIndex > 0) {
                 charIndex--;
                 updatePhraseDisplay();
                 setTypingTimeout(erase, erasingSpeed);
             } else {
-                textArrayIndex = (textArrayIndex + 1) % textArray.length;
+                textArrayIndex = (textArrayIndex + 1) % activePhrases.length;
                 charIndex = 0;
+                updateLineWidth();
                 updatePhraseDisplay();
                 setTypingTimeout(type, nextPhraseDelay);
             }
@@ -1054,5 +1086,220 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 })();
+
+/* PROJECTS-LAYOUT START */
+(function initProjectsLayout() {
+    function setup() {
+        const projectsGrid = document.getElementById('projects-grid') || document.querySelector('.portfolio-container');
+        const showMoreBtn = document.getElementById('projectsShowMoreBtn');
+        const showMoreWrapper = document.querySelector('.projects-showmore-wrapper');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        if (!projectsGrid) return;
+
+        const allCards = Array.from(projectsGrid.querySelectorAll('.portfolio-box'));
+        if (allCards.length === 0) return;
+
+        // 1. Setup compact cards: Tech tag overflow, description title, and bottom links
+        allCards.forEach(card => {
+            // Description title attribute for accessibility
+            const desc = card.querySelector('.portfolio-info p');
+            if (desc && !desc.getAttribute('title')) {
+                desc.setAttribute('title', desc.textContent.trim());
+            }
+
+            // Tech tags single-row with +N pill if > 4 tags
+            const tagsContainer = card.querySelector('.project-tags');
+            if (tagsContainer) {
+                const tags = Array.from(tagsContainer.querySelectorAll('.project-tag:not(.tag-more-pill)'));
+                if (tags.length > 4) {
+                    const extraTags = tags.slice(4);
+                    extraTags.forEach(tag => tag.classList.add('tag-hidden-extra'));
+                    const hiddenNames = extraTags.map(t => t.textContent.trim()).join(', ');
+                    
+                    let morePill = tagsContainer.querySelector('.tag-more-pill');
+                    if (!morePill) {
+                        morePill = document.createElement('span');
+                        morePill.className = 'project-tag tag-more-pill';
+                        tagsContainer.appendChild(morePill);
+                    }
+                    morePill.textContent = `+${extraTags.length}`;
+                    morePill.setAttribute('title', `Additional technologies: ${hiddenNames}`);
+                }
+            }
+
+            // Compact bottom links row
+            let linksRow = card.querySelector('.portfolio-card-links');
+            if (!linksRow) {
+                const layerLinks = Array.from(card.querySelectorAll('.portfolio-layer a'));
+                if (layerLinks.length > 0) {
+                    linksRow = document.createElement('div');
+                    linksRow.className = 'portfolio-card-links';
+
+                    layerLinks.forEach(layerLink => {
+                        const href = layerLink.getAttribute('href');
+                        const isGithub = href.includes('github.com') || layerLink.querySelector('.fa-github') || (layerLink.getAttribute('title') || '').toLowerCase().includes('github');
+                        const link = document.createElement('a');
+                        link.href = href;
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.className = 'portfolio-card-link';
+
+                        if (isGithub) {
+                            link.innerHTML = '<i class="fab fa-github" aria-hidden="true"></i> Code';
+                            link.title = 'View Source Code';
+                        } else {
+                            link.innerHTML = '<i class="fas fa-external-link-alt" aria-hidden="true"></i> Live Demo';
+                            link.title = 'View Live Demo';
+                        }
+                        linksRow.appendChild(link);
+                    });
+
+                    const info = card.querySelector('.portfolio-info');
+                    if (info) {
+                        info.appendChild(linksRow);
+                    }
+                }
+            }
+
+            // 3D Tilt support on newly added cards
+            if (!card.dataset.tiltInitialized) {
+                card.dataset.tiltInitialized = 'true';
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    const tiltX = (centerY - y) / 18;
+                    const tiltY = (x - centerX) / 18;
+                    card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-5px)`;
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+                });
+            }
+        });
+
+        // 2. State & Display Management
+        let isExpanded = false;
+        let activeFilter = 'all';
+
+        // Check if an active filter is already selected
+        const currentActiveBtn = document.querySelector('.filter-btn.active');
+        if (currentActiveBtn) {
+            activeFilter = currentActiveBtn.getAttribute('data-filter') || 'all';
+        }
+
+        function updateProjectsView(animate = false) {
+            const matchingCards = allCards.filter(card => {
+                const categories = (card.getAttribute('data-category') || '').trim().split(/\s+/);
+                return activeFilter === 'all' || categories.includes(activeFilter);
+            });
+
+            // Handle non-matching cards
+            allCards.forEach(card => {
+                if (!matchingCards.includes(card)) {
+                    card.classList.add('is-filter-hidden', 'hide');
+                    card.classList.remove('is-collapsed', 'is-revealing');
+                }
+            });
+
+            // Handle matching cards
+            matchingCards.forEach((card, index) => {
+                card.classList.remove('is-filter-hidden', 'hide', 'fade-out');
+                card.classList.add('visible');
+
+                if (index < 6) {
+                    card.classList.remove('is-collapsed', 'is-revealing');
+                    card.style.opacity = '1';
+                } else {
+                    if (isExpanded) {
+                        card.classList.remove('is-collapsed');
+                        if (animate) {
+                            card.classList.add('is-revealing');
+                            card.style.animationDelay = `${Math.min((index - 6) * 40, 240)}ms`;
+                        } else {
+                            card.style.opacity = '1';
+                        }
+                    } else {
+                        card.classList.add('is-collapsed');
+                        card.classList.remove('is-revealing');
+                    }
+                }
+            });
+
+            if (animate) {
+                setTimeout(() => {
+                    allCards.forEach(c => {
+                        c.classList.remove('is-revealing');
+                        c.style.animationDelay = '';
+                    });
+                }, 350);
+            }
+
+            // Update button visibility and text
+            if (showMoreBtn && showMoreWrapper) {
+                const hiddenCount = Math.max(0, matchingCards.length - 6);
+                if (hiddenCount > 0) {
+                    showMoreWrapper.style.display = 'flex';
+                    if (isExpanded) {
+                        showMoreBtn.setAttribute('aria-expanded', 'true');
+                        showMoreBtn.innerHTML = '<i class="fas fa-chevron-up" aria-hidden="true"></i> Show less';
+                    } else {
+                        showMoreBtn.setAttribute('aria-expanded', 'false');
+                        showMoreBtn.innerHTML = `<i class="fas fa-chevron-down" aria-hidden="true"></i> Show more projects (${hiddenCount} more)`;
+                    }
+                } else {
+                    showMoreWrapper.style.display = 'none';
+                    showMoreBtn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        }
+
+        // 3. Event Listeners
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', () => {
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (!isExpanded) {
+                    isExpanded = true;
+                    updateProjectsView(!prefersReducedMotion);
+                } else {
+                    isExpanded = false;
+                    updateProjectsView(false);
+                    const projectsSec = document.getElementById('projects');
+                    if (projectsSec) {
+                        projectsSec.scrollIntoView({
+                            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeFilter = btn.getAttribute('data-filter') || 'all';
+                isExpanded = false;
+                updateProjectsView(false);
+            });
+        });
+
+        // Initial setup
+        updateProjectsView(false);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setup);
+    } else {
+        setup();
+    }
+})();
+/* PROJECTS-LAYOUT END */
 
 

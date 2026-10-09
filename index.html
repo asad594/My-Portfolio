@@ -72,8 +72,7 @@
 
                 <h1 class="glitch-text" data-text="Muhammad Asad">Muhammad Asad</h1>
                 <h2 class="subtitle" id="heroSubtitle" aria-label="I specialize in Python, Java &amp; C#">
-                    <span class="hero-role-static">I specialize in</span>
-                    <span class="hero-role-typed" aria-hidden="true"><span class="typed-visible"></span><span class="typed-cursor" aria-hidden="true"></span><span class="typed-remaining">Python, Java &amp; C#</span></span>
+                    <span class="hero-role-line"><span class="hero-role-static">I specialize in</span> <span class="hero-role-typed" aria-hidden="true"><span class="typed-visible"></span><span class="typed-cursor" aria-hidden="true"></span></span></span>
                 </h2>
                 <div class="hero-timeline" id="heroTimeline" role="list" aria-label="Key highlights">
                     <div class="hero-timeline-track" aria-hidden="true">
@@ -395,6 +394,12 @@
         <div class="container">
             <h2 class="section-title">04. Featured Projects</h2>
             
+            <!-- PROJECTS-BANNER START -->
+            <figure class="projects-banner fade-in-on-scroll">
+                <img src="assets/images/projects-banner.webp?v=2" alt="Developer working on a laptop at a desk with teal and purple screen glow" width="1600" height="893" loading="lazy" decoding="async">
+            </figure>
+            <!-- PROJECTS-BANNER END -->
+
             <!-- Category Filters -->
             <div class="filter-buttons">
                 <button class="filter-btn active magnetic-target" data-filter="all">All Projects</button>
@@ -405,7 +410,34 @@
                 <button class="filter-btn magnetic-target" data-filter="ai">AI & ML</button>
             </div>
 
-            <div class="portfolio-container">
+            <div class="portfolio-container" id="projects-grid">
+                <!-- PROJECT-RAG START -->
+                <div class="portfolio-box" data-category="ai python web">
+                    <div class="portfolio-img-box">
+                        <img src="images/rag-pdf-assistant.webp" alt="RAG PDF Study Assistant" loading="lazy" decoding="async">
+                        <div class="portfolio-layer">
+                            <a href="https://github.com/asad594/RAG-PDF-Study-Assistant" target="_blank" rel="noopener noreferrer" title="View GitHub Repository"><i
+                                    class="fab fa-github"></i></a>
+                            <a href="https://rag-pdf-study-assistant.vercel.app" target="_blank" rel="noopener noreferrer" title="View Live Demo"><i
+                                    class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>RAG PDF Study Assistant</h4>
+                        <p title="Upload a PDF, ask questions about it and generate multiple-choice quizzes from its content. The PDF is chunked, embedded with Gemini, stored in ChromaDB and the most relevant chunks are retrieved to ground every answer.">Upload a PDF, ask questions about it and generate multiple-choice quizzes from its content. The PDF is chunked, embedded with Gemini, stored in ChromaDB and the most relevant chunks are retrieved to ground every answer.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Python</span>
+                            <span class="project-tag">Django REST Framework</span>
+                            <span class="project-tag">React</span>
+                            <span class="project-tag">Gemini</span>
+                            <span class="project-tag">ChromaDB</span>
+                            <span class="project-tag">LangChain</span>
+                            <span class="project-tag">RAG</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- PROJECT-RAG END -->
+
                 <!-- Project: ByteCorp Job Board Platform -->
                 <div class="portfolio-box" data-category="web python">
                     <div class="portfolio-img-box">
@@ -684,6 +716,14 @@
                     </div>
                 </div>
             </div>
+
+            <!-- PROJECTS-SHOWMORE START -->
+            <div class="projects-showmore-wrapper">
+                <button type="button" id="projectsShowMoreBtn" class="btn btn-outline projects-showmore-btn" aria-expanded="false" aria-controls="projects-grid">
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i> Show more projects (8 more)
+                </button>
+            </div>
+            <!-- PROJECTS-SHOWMORE END -->
         </div>
     </section>
 
